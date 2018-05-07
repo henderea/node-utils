@@ -1,0 +1,21 @@
+{
+  "name": "@henderea/node-utils",
+  "version": "1.0.0",
+  "description": "Some node utility scripts",
+  "main": "index.js",
+  "author": "Eric Henderson <henderea@gmail.com>",
+  "repository": "henderea/node-utils",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "diff": "^3.5.0",
+    "inquirer": "^5.2.0",
+    "lodash": "^4.17.10",
+    "xmldom": "^0.1.27",
+    "xpath": "^0.0.27"
+  },
+  "bin": {
+    "xpath-get": "./bin/xpath-get.js",
+    "xpath-set": "./bin/xpath-set.js"
+  }
+}

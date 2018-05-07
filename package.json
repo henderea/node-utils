@@ -4,7 +4,7 @@
   "description": "Some node utility scripts",
   "main": "index.js",
   "author": "Eric Henderson <henderea@gmail.com>",
-  "repository": "henderea/node-utils",
+  "repository": "henderea/node-utils.git",
   "license": "MIT",
   "dependencies": {
     "chalk": "^2.4.1",

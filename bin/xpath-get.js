@@ -3,7 +3,9 @@ const fs = require('fs');
 const path = require('path');
 
 const xpath = require('xpath');
-const dom = require('xmldom').DOMParser;
+const xmldom = require('xmldom');
+const dom = xmldom.DOMParser;
+const serializer = xmldom.XMLSerializer;
 const _ = require('lodash');
 
 // console.log(path.resolve(process.argv[2]));
@@ -22,5 +24,6 @@ const results = evaluator.evaluate({
 if(!results || results.length == 0) {
     exit(1);
 } else {
-    console.log(_.map(results.nodes, (r) => r.nodeValue).join('\n'));
+    const ser = new serializer();
+    console.log(_.map(results.nodes, (r) => ser.serializeToString(r)).join('\n'));
 }

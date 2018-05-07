@@ -26,4 +26,14 @@ xpath-get pom.xml "/project/dependencies/dependency[artifactId='log4j']/version/
 
 ### xpath-set
 
-####
+Set a node's text content in a file using xpath
+
+#### Usage
+
+```shell
+xpath-set FILENAME XPATH VALUE
+```
+
+```shell
+xpath-set pom.xml "/project/dependencies/dependency[artifactId='log4j']/version" "4.0.0"
+```

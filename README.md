@@ -51,7 +51,7 @@ Format a date using MomentJS
 #### Usage
 
 ```shell
-moment-date [-o|--output-format|-f|--format OUTPUT_FORMAT] [-i|--input-format INPUT_FORMAT] [-d|--date DATE]
+moment-date [-o|--output-format|-f|--format OUTPUT_FORMAT] [-i|--input-format INPUT_FORMAT] [-d|--date DATE] [-t|--output-timezone OUTPUT_TIMEZONE] [-z|--input-timezone INPUT_TIMEZONE]
 ```
 
 ```shell

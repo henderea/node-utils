@@ -7,6 +7,7 @@ const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
 const _ = require('lodash');
+const chalk = require('chalk');
 const args = require('../lib/arg-handler');
 
 const {options, arg} = args().addFlag('help', ['-h', '--help', 'help']).parse();
@@ -17,12 +18,21 @@ if(arg.count < 2 && !options.help) {
 }
 
 if(options.help) {
-    console.log(`usage:
-xpath-get [-h|--help|help]
-xpath-get XML_FILENAME XPATH_EXPRESSION
+    const arg = chalk.underline.blue;
+    const opt = chalk.underline.gray;
+    const optional = chalk.gray('(optional)');
+    const section = chalk.bold.underline;
+    const name = chalk.bold.green;
+    console.log(`${section('USAGE')}:
+${name('xpath-get')} ${opt('[-h|--help|help]')}
+${name('xpath-get')} ${arg('XML_FILENAME')} ${arg('XPATH_EXPRESSION')}
 
-flags:
--h|--help|help -> display this help`);
+${section('FLAGS')}:
+${opt('-h|--help|help')}   -> ${optional} display this help
+
+${section('ARGS')}:
+${arg('XML_FILENAME')}     -> the path to the XML file
+${arg('XPATH_EXPRESSION')} -> the xpath expression pointing to the node/value to get`);
     process.exit(0);
 }
 

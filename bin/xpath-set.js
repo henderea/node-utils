@@ -20,13 +20,23 @@ if(arg.count < 3 && !options.help) {
 }
 
 if(options.help) {
-    console.log(`usage:
-xpath-set [-h|--help|help]
-xpath-set [-y|--yes] XML_FILENAME XPATH_EXPRESSION NEW_VALUE
+    const arg = chalk.underline.blue;
+    const opt = chalk.underline.gray;
+    const optional = chalk.gray('(optional)');
+    const section = chalk.bold.underline;
+    const name = chalk.bold.green;
+    console.log(`${section('USAGE')}:
+${name('xpath-set')} ${opt('[-h|--help|help]')}
+${name('xpath-set')} ${opt('[-y|--yes]')} ${arg('XML_FILENAME')} ${arg('XPATH_EXPRESSION')} ${arg('NEW_VALUE')}
 
-flags:
--h|--help|help -> display this help
--y|--yes       -> automatically confirm the changes`);
+${section('FLAGS')}:
+${opt('-h|--help|help')}   -> ${optional} display this help
+${opt('-y|--yes')}         -> ${optional} automatically confirm the changes
+
+${section('ARGS')}:
+${arg('XML_FILENAME')}     -> the path to the XML file
+${arg('XPATH_EXPRESSION')} -> the xpath expression pointing to the node to set the text content of
+${arg('NEW_VALUE')}        -> the value to place at the node referenced by ${arg('XPATH_EXPRESSION')}`);
     process.exit(0);
 }
 

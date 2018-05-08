@@ -17,7 +17,7 @@ Get a value from a file using xpath
 #### Usage
 
 ```shell
-xpath-get FILENAME XPATH
+xpath-get XML_FILENAME XPATH_EXPRESSION
 ```
 
 ```shell
@@ -33,7 +33,7 @@ Set a node's text content in a file using xpath
 #### Usage
 
 ```shell
-xpath-set FILENAME XPATH VALUE
+xpath-set [-y|--yes] XML_FILENAME XPATH_EXPRESSION NEW_VALUE
 ```
 
 ```shell
@@ -42,4 +42,4 @@ xpath-set pom.xml "/project/dependencies/dependency[artifactId='log4j']/version"
 
 You can also call `xpath-set help`, `xpath-set --help`, or `xpath-set -h` to get usage info.
 
-You can pass `-y` or `--yes` as the **first** argument to `xpath-set` to automatically confirm the change.  **It must be the first argument if provided**
+You can pass `-y` or `--yes` to `xpath-set` to automatically confirm the change.

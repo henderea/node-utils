@@ -10,29 +10,19 @@ const _ = require('lodash');
 const jsdiff = require('diff');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
+const args = require('../lib/arg-handler');
 
-let firstArg = 2;
+const {options, arg} = args().addFlag('help', ['-h', '--help', 'help']).addFlag('yes', ['-y', '--yes']).parse();
 
-let arg = ind => process.argv[firstArg + ind];
-
-const allowedFlags = {'-h': 'help', '--help': 'help', 'help': 'help', '-y': 'yes', '--yes': 'yes'};
-
-let options = {};
-
-while(arg(0) && _.includes(_.keys(allowedFlags), arg(0))) {
-    options[allowedFlags[arg(0)]] = true;
-    firstArg++;
-}
-
-if(!arg(2) && !options.help) {
+if(arg.count < 3 && !options.help) {
     console.log('Not enough arguments.');
     options.help = true;
 }
 
 if(options.help) {
     console.log(`usage:
-xpath-get [-h|--help|help]
-xpath-get [-y|--yes] XML_FILENAME XPATH_EXPRESSION NEW_VALUE
+xpath-set [-h|--help|help]
+xpath-set [-y|--yes] XML_FILENAME XPATH_EXPRESSION NEW_VALUE
 
 flags:
 -h|--help|help -> display this help

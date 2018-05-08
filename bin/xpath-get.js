@@ -7,21 +7,11 @@ const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
 const _ = require('lodash');
+const args = require('../lib/arg-handler');
 
-let firstArg = 2;
+const {options, arg} = args().addFlag('help', ['-h', '--help', 'help']).parse();
 
-let arg = ind => process.argv[firstArg + ind];
-
-const allowedFlags = {'-h': 'help', '--help': 'help', 'help': 'help'};
-
-let options = {};
-
-while(arg(0) && _.includes(_.keys(allowedFlags), arg(0))) {
-    options[allowedFlags[arg(0)]] = true;
-    firstArg++;
-}
-
-if(!arg(1) && !options.help) {
+if(arg.count < 2 && !options.help) {
     console.log('Not enough arguments.');
     options.help = true;
 }

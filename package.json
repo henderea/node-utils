@@ -11,11 +11,13 @@
     "diff": "^3.5.0",
     "inquirer": "^5.2.0",
     "lodash": "^4.17.10",
+    "moment": "^2.22.1",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
   },
   "bin": {
     "xpath-get": "./bin/xpath-get.js",
-    "xpath-set": "./bin/xpath-set.js"
+    "xpath-set": "./bin/xpath-set.js",
+    "moment-date": "./bin/moment-date.js"
   }
 }

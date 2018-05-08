@@ -12,7 +12,10 @@ const chalk = require('chalk');
 const inquirer = require('inquirer');
 const args = require('../lib/arg-handler');
 
-const {options, arg} = args().addFlag('help', ['-h', '--help', 'help']).addFlag('yes', ['-y', '--yes']).parse();
+const {options, arg} = args()
+    .addFlag('help', ['-h', '--help', 'help'])
+    .addFlag('yes', ['-y', '--yes'])
+    .parse();
 
 if(arg.count < 3 && !options.help) {
     console.log('Not enough arguments.');

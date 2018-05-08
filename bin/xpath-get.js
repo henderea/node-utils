@@ -10,7 +10,9 @@ const _ = require('lodash');
 const chalk = require('chalk');
 const args = require('../lib/arg-handler');
 
-const {options, arg} = args().addFlag('help', ['-h', '--help', 'help']).parse();
+const {options, arg} = args()
+    .addFlag('help', ['-h', '--help', 'help'])
+    .parse();
 
 if(arg.count < 2 && !options.help) {
     console.log('Not enough arguments.');

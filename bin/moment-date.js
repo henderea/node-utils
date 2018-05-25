@@ -2,39 +2,37 @@
 const _ = require('lodash');
 const moment = require('moment-timezone');
 const chalk = require('chalk');
-const args = require('../lib/arg-handler');
-
-const {options, arg} = args()
-    .addFlag('help', ['-h', '--help', 'help'])
-    .addFlag('outputFormat', ['-o', '--output-format', '-f', '--format'], {acceptsParameter: true, accumulate: true})
-    .addFlag('inputFormat', ['-i', '--input-format'], {acceptsParameter: true})
-    .addFlag('date', ['-d', '--date'], {acceptsParameter: true})
-    .addFlag('outputTimezone', ['-t', '--output-timezone'], {acceptsParameter: true})
-    .addFlag('inputTimezone', ['-z', '--input-timezone'], {acceptsParameter: true})
-    .parse();
-
-if(options.help) {
-    const arg = chalk.underline.blue;
-    const opt = chalk.underline.gray;
-    const optional = chalk.gray('(optional)');
-    const section = chalk.bold.underline;
-    const name = chalk.bold.green;
-    console.log(`${section('USAGE')}:
-${name('moment-date')} ${arg('-h|--help|help')}
-${name('moment-date')} ${opt('[-o|--output-format|-f|--format OUTPUT_FORMAT]')} ${opt('[-i|--input-format INPUT_FORMAT]')} ${opt('[-d|--date DATE]')} ${opt('[-t|--output-timezone OUTPUT_TIMEZONE]')} ${opt('[-z|--input-timezone INPUT_TIMEZONE]')}
-
-${section('FLAGS')}:
-${arg('-h|--help|help')}                               -> display this help
-${opt('-o|--output-format|-f|--format OUTPUT_FORMAT')} -> ${optional} specify an output format to use; provide this flag multiple times to specify multiple output formats; if this flag is not provided, the milliseconds since the epoch will be outputted
-${opt('-i|--input-format INPUT_FORMAT')}               -> ${optional} specify the input format if using the ${opt('-d|--date DATE')} option; if the input format is not provided, will try to use default date parsing logic, and will treat a numeric-only date as a number of milliseconds since the epoch
-${opt('-d|--date DATE')}                               -> ${optional} specify the date to use
-${opt('-t|--output-timezone OUTPUT_TIMEZONE')}         -> ${optional} specify the output timezone to use; defaults to input timezone if provided, otherwise uses the system timezone
-${opt('-z|--input-timezone INPUT_TIMEZONE')}           -> ${optional} specify the input timezone to use if using the ${opt('-d|--date DATE')} option; defaults to the system timezone
-
-${section('SEE ALSO')}:
-Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/`);
-    process.exit(0);
-}
+const yargs = require('yargs');
+var options = yargs
+    .usage('Usage: $0 [options]')
+    .epilog('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/')
+    .wrap(yargs.terminalWidth())
+    .help('h')
+    .alias('h', 'help')
+    .alias('o', ['output-format', 'f', 'format'])
+    .nargs('o', 1)
+    .array('o')
+    .describe('o', 'specify an output format to use; provide this flag multiple times to specify multiple output formats; if this flag is not provided, the milliseconds since the epoch will be outputted')
+    .default('o', 'x')
+    .alias('i', 'input-format')
+    .nargs('i', 1)
+    .string('i')
+    .describe('i', 'specify the input format; if the input format is not provided, will try to use default date parsing logic, and will treat a numeric-only date as a number of milliseconds since the epoch')
+    .alias('d', 'date')
+    .nargs('d', 1)
+    .string('d')
+    .describe('d', 'specify the date to use')
+    .implies('i', 'd')
+    .alias('t', 'output-timezone')
+    .nargs('t', 1)
+    .string('t')
+    .describe('t', 'specify the output timezone to use; defaults to input timezone if provided, otherwise uses the system timezone')
+    .alias('z', 'input-timezone')
+    .nargs('z', 1)
+    .string('z')
+    .describe('z', 'specify the input timezone to use; defaults to the system timezone')
+    .implies('z', 'd')
+    .argv;
 
 let date = moment();
 if(options.date) {

@@ -10,43 +10,34 @@ const _ = require('lodash');
 const jsdiff = require('diff');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
-const args = require('../lib/arg-handler');
+const yargs = require('yargs');
 
-const {options, arg} = args()
-    .addFlag('help', ['-h', '--help', 'help'])
-    .addFlag('yes', ['-y', '--yes'])
-    .parse();
+const options = yargs
+    .command('$0 <xml_filename> <xpath_expression> <new_value>', 'set the text content of a node in an xml file via xpath', yargs => {
+        yargs.positional('xml_filename', {
+            describe: 'the path to the XML file being modified',
+            type: 'string',
+            normalize: true
+        }).positional('xpath_expression', {
+            describe: 'the xpath expression pointing to the node to set the text content of',
+            type: 'string'
+        }).positional('new_value', {
+            describe: 'the value to place at the node referenced by xpath_expression',
+            type: 'string'
+        })
+            .alias('y', 'yes')
+            .boolean('y')
+            .describe('y', 'automatically confirm the changes');
+    })
+    .wrap(yargs.terminalWidth())
+    .help('h')
+    .alias('h', 'help')
+    .argv;
 
-if(arg.count < 3 && !options.help) {
-    console.log('Not enough arguments.');
-    options.help = true;
-}
-
-if(options.help) {
-    const arg = chalk.underline.blue;
-    const opt = chalk.underline.gray;
-    const optional = chalk.gray('(optional)');
-    const section = chalk.bold.underline;
-    const name = chalk.bold.green;
-    console.log(`${section('USAGE')}:
-${name('xpath-set')} ${opt('[-h|--help|help]')}
-${name('xpath-set')} ${opt('[-y|--yes]')} ${arg('XML_FILENAME')} ${arg('XPATH_EXPRESSION')} ${arg('NEW_VALUE')}
-
-${section('FLAGS')}:
-${opt('-h|--help|help')}   -> ${optional} display this help
-${opt('-y|--yes')}         -> ${optional} automatically confirm the changes
-
-${section('ARGS')}:
-${arg('XML_FILENAME')}     -> the path to the XML file
-${arg('XPATH_EXPRESSION')} -> the xpath expression pointing to the node to set the text content of
-${arg('NEW_VALUE')}        -> the value to place at the node referenced by ${arg('XPATH_EXPRESSION')}`);
-    process.exit(0);
-}
-
-const filepath = path.resolve(arg(0));
+const filepath = path.resolve(options.xml_filename);
 const data = fs.readFileSync(filepath, 'UTF-8');
 const doc = new dom().parseFromString(data);
-const evaluator = xpath.parse(arg(1));
+const evaluator = xpath.parse(options.xpath_expression);
 var results = evaluator.evaluate({
     node: doc,
     caseInsensitive: true,
@@ -56,7 +47,7 @@ if(!results || results.length == 0) {
     exit(1);
 } else {
     _.each(results.nodes, (node) => {
-        node.textContent = arg(2);
+        node.textContent = options.new_value;
     });
     const newData = new serializer().serializeToString(doc);
     const diff = jsdiff.diffLines(data, newData);

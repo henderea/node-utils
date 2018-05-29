@@ -9,37 +9,26 @@ const serializer = xmldom.XMLSerializer;
 const _ = require('lodash');
 const chalk = require('chalk');
 const args = require('../lib/arg-handler');
+const yargs = require('yargs');
 
-const {options, arg} = args()
-    .addFlag('help', ['-h', '--help', 'help'])
-    .parse();
+const options = yargs
+    .command('$0 <xml_filename> <xpath_expression>', 'get a value from an xml file via xpath', yargs => {
+        yargs.positional('xml_filename', {
+            describe: 'the path to the XML file being examined',
+            type: 'string',
+            normalize: true
+        }).positional('xpath_expression', {
+            describe: 'the xpath expression pointing to the node/value to get',
+            type: 'string'
+        });
+    })
+    .wrap(yargs.terminalWidth())
+    .help('h')
+    .alias('h', 'help')
+    .argv;
 
-if(arg.count < 2 && !options.help) {
-    console.log('Not enough arguments.');
-    options.help = true;
-}
-
-if(options.help) {
-    const arg = chalk.underline.blue;
-    const opt = chalk.underline.gray;
-    const optional = chalk.gray('(optional)');
-    const section = chalk.bold.underline;
-    const name = chalk.bold.green;
-    console.log(`${section('USAGE')}:
-${name('xpath-get')} ${opt('[-h|--help|help]')}
-${name('xpath-get')} ${arg('XML_FILENAME')} ${arg('XPATH_EXPRESSION')}
-
-${section('FLAGS')}:
-${opt('-h|--help|help')}   -> ${optional} display this help
-
-${section('ARGS')}:
-${arg('XML_FILENAME')}     -> the path to the XML file
-${arg('XPATH_EXPRESSION')} -> the xpath expression pointing to the node/value to get`);
-    process.exit(0);
-}
-
-const doc = new dom().parseFromString(fs.readFileSync(path.resolve(arg(0)), 'UTF-8'));
-const evaluator = xpath.parse(arg(1));
+const doc = new dom().parseFromString(fs.readFileSync(path.resolve(options.xml_filename), 'UTF-8'));
+const evaluator = xpath.parse(options.xpath_expression);
 const results = evaluator.evaluate({
     node: doc,
     caseInsensitive: true,

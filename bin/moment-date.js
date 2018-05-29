@@ -3,7 +3,7 @@ const _ = require('lodash');
 const moment = require('moment-timezone');
 const chalk = require('chalk');
 const yargs = require('yargs');
-var options = yargs
+const options = yargs
     .usage('Usage: $0 [options]')
     .epilog('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/')
     .wrap(yargs.terminalWidth())

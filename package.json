@@ -1,6 +1,6 @@
 {
   "name": "@henderea/node-utils",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Some node utility scripts",
   "main": "index.js",
   "author": "Eric Henderson <henderea@gmail.com>",

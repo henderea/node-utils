@@ -20,6 +20,7 @@
   "bin": {
     "xpath-get": "./bin/xpath-get.js",
     "xpath-set": "./bin/xpath-set.js",
-    "moment-date": "./bin/moment-date.js"
+    "moment-date": "./bin/moment-date.js",
+    "my-service": "./bin/my-service.js"
   }
 }

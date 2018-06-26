@@ -8,7 +8,6 @@ const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
 const _ = require('lodash');
 const chalk = require('chalk');
-const args = require('../lib/arg-handler');
 const yargs = require('yargs');
 
 const options = yargs

@@ -37,7 +37,8 @@ const options = yargs
 const filepath = path.resolve(options.xml_filename);
 const data = fs.readFileSync(filepath, 'UTF-8');
 const doc = new dom().parseFromString(data);
-const evaluator = xpath.parse(options.xpath_expression);
+let xpath_expression = options.xpath_expression.replace(/\/([\w\d]+)(?=$|\/)/g, "/*[local-name(.)='$1']");
+const evaluator = xpath.parse(xpath_expression);
 var results = evaluator.evaluate({
     node: doc,
     caseInsensitive: true,

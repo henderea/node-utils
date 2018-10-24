@@ -1,0 +1,10 @@
+{
+    "name": "moment-date",
+    "bin": "./bin/moment-date.js",
+    "pkg": {
+        "targets": [
+            "node10-macos-x64",
+            "node10-linux-x64"
+        ]
+    }
+}

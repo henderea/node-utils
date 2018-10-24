@@ -1,0 +1,10 @@
+{
+    "name": "xpath-get",
+    "bin": "./bin/xpath-get.js",
+    "pkg": {
+        "targets": [
+            "node10-macos-x64",
+            "node10-linux-x64"
+        ]
+    }
+}

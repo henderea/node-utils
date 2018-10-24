@@ -6,6 +6,14 @@
   "author": "Eric Henderson <henderea@gmail.com>",
   "repository": "henderea/node-utils.git",
   "license": "MIT",
+  "scripts": {
+    "pkg:clean": "rm -rf pkg",
+    "pkg:xpath-get": "pkg xpath-get.config.json --out-path pkg",
+    "pkg:xpath-set": "pkg xpath-set.config.json --out-path pkg",
+    "pkg:moment-date": "pkg moment-date.config.json --out-path pkg",
+    "pkg:my-service": "pkg my-service.config.json --out-path pkg",
+    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service"
+  },
   "dependencies": {
     "chalk": "^2.4.1",
     "diff": "^3.5.0",
@@ -22,5 +30,8 @@
     "xpath-set": "./bin/xpath-set.js",
     "moment-date": "./bin/moment-date.js",
     "my-service": "./bin/my-service.js"
+  },
+  "devDependencies": {
+    "pkg": "^4.3.4"
   }
 }

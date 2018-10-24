@@ -2,10 +2,11 @@
 const _ = require('lodash');
 const chalk = require('chalk');
 const yargs = require('yargs');
+const path = require('path');
 const argv = yargs
     .usage('Usage: $0 command [args]')
     .wrap(120)
-    .commandDir('../lib/my-service')
+    .commandDir(path.join(__dirname, '../lib/my-service'))
     .option('p', {
         alias: 'prefix',
         default: 'com.henderea.',

@@ -8,10 +8,10 @@
   "license": "MIT",
   "scripts": {
     "pkg:clean": "rm -rf pkg",
-    "pkg:xpath-get": "pkg xpath-get.config.json --out-path pkg",
-    "pkg:xpath-set": "pkg xpath-set.config.json --out-path pkg",
-    "pkg:moment-date": "pkg moment-date.config.json --out-path pkg",
-    "pkg:my-service": "pkg my-service.config.json --out-path pkg",
+    "pkg:xpath-get": "pkg pkg-config/xpath-get.config.json --out-path pkg",
+    "pkg:xpath-set": "pkg pkg-config/xpath-set.config.json --out-path pkg",
+    "pkg:moment-date": "pkg pkg-config/moment-date.config.json --out-path pkg",
+    "pkg:my-service": "pkg pkg-config/my-service.config.json --out-path pkg",
     "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service"
   },
   "dependencies": {

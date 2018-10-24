@@ -1,6 +1,6 @@
 {
     "name": "xpath-set",
-    "bin": "./bin/xpath-set.js",
+    "bin": "../bin/xpath-set.js",
     "pkg": {
         "targets": [
             "node10-macos-x64",

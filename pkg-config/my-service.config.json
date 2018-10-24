@@ -1,10 +1,10 @@
 {
     "name": "my-service-macos",
-    "bin": "./bin/my-service.js",
+    "bin": "../bin/my-service.js",
     "pkg": {
         "targets": [
             "node10-macos-x64"
         ],
-        "scripts": "./lib/my-service/**/*.js"
+        "scripts": "../lib/my-service/**/*.js"
     }
 }

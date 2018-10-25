@@ -12,7 +12,8 @@
     "pkg:xpath-set": "pkg pkg-config/xpath-set.config.json --out-path pkg",
     "pkg:moment-date": "pkg pkg-config/moment-date.config.json --out-path pkg",
     "pkg:my-service": "pkg pkg-config/my-service.config.json --out-path pkg",
-    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service"
+    "pkg:strip-accents": "pkg pkg-config/strip-accents.config.json --out-path pkg",
+    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service && yarn pkg:strip-accents"
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -29,7 +30,8 @@
     "xpath-get": "./bin/xpath-get.js",
     "xpath-set": "./bin/xpath-set.js",
     "moment-date": "./bin/moment-date.js",
-    "my-service": "./bin/my-service.js"
+    "my-service": "./bin/my-service.js",
+    "strip-accents": "./bin/strip-accents.js"
   },
   "devDependencies": {
     "pkg": "^4.3.4"

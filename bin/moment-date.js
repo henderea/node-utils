@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const _ = require('lodash');
 const moment = require('moment-timezone');
+require('moment-duration-format')(moment);
 const chalk = require('chalk');
 const yargs = require('yargs');
 const options = yargs
@@ -32,36 +33,46 @@ const options = yargs
     .string('z')
     .describe('z', 'specify the input timezone to use; defaults to the system timezone')
     .implies('z', 'd')
+    .alias('s', 'duration-format')
+    .nargs('s', 1)
+    .string('s')
+    .implies('s', 'd')
+    .describe('s', 'specify a duration format to use; treats the input date as a number of milliseconds of the duration')
     .argv;
 
-let date = moment();
-if(options.date) {
-    if(options.inputFormat) {
-        if(options.inputTimezone) {
-            date = moment.tz(options.date, options.inputFormat, options.inputTimezone);
+if(options.durationFormat && options.date) {
+    let duration = moment.duration(parseInt(options.date));
+    console.log(duration.format(options.durationFormat));
+} else {
+    let date = moment();
+    if(options.date) {
+        if(options.inputFormat) {
+            if(options.inputTimezone) {
+                date = moment.tz(options.date, options.inputFormat, options.inputTimezone);
+            } else {
+                date = moment(options.date, options.inputFormat);
+            }
         } else {
-            date = moment(options.date, options.inputFormat);
-        }
-    } else {
-        if(/^\d+$/.test(options.date)) {
-            options.date = parseInt(options.date);
-        }
-        if(options.inputTimezone) {
-            date = moment.tz(options.date, options.inputTimezone);
-        } else {
-            date = moment(options.date);
+            if(/^\d+$/.test(options.date)) {
+                options.date = parseInt(options.date);
+            }
+            if(options.inputTimezone) {
+                date = moment.tz(options.date, options.inputTimezone);
+            } else {
+                date = moment(options.date);
+            }
         }
     }
-}
 
-if(options.outputTimezone) {
-    date = date.tz(options.outputTimezone);
-} else if(!options.inputTimezone) {
-    date = date.tz(moment.tz.guess());
-}
+    if(options.outputTimezone) {
+        date = date.tz(options.outputTimezone);
+    } else if(!options.inputTimezone) {
+        date = date.tz(moment.tz.guess());
+    }
 
-if(options.outputFormat) {
-    console.log(_.map(options.outputFormat, (format) => date.format(format)).join('\n'));
-} else {
-    console.log(`${+date}`);
+    if(options.outputFormat) {
+        console.log(_.map(options.outputFormat, (format) => date.format(format)).join('\n'));
+    } else {
+        console.log(`${+date}`);
+    }
 }

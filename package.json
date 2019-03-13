@@ -32,8 +32,7 @@
     "xpath-set": "./bin/xpath-set.js",
     "moment-date": "./bin/moment-date.js",
     "my-service": "./bin/my-service.js",
-    "strip-accents": "./bin/strip-accents.js",
-    "simple-prompt": "./bin/simple-prompt.js"
+    "strip-accents": "./bin/strip-accents.js"
   },
   "devDependencies": {
     "pkg": "^4.3.7"

@@ -13,7 +13,24 @@
     "pkg:moment-date": "pkg pkg-config/moment-date.config.json --out-path pkg",
     "pkg:my-service": "pkg pkg-config/my-service.config.json --out-path pkg",
     "pkg:strip-accents": "pkg pkg-config/strip-accents.config.json --out-path pkg",
-    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service && yarn pkg:strip-accents"
+    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service && yarn pkg:strip-accents",
+    "ncc:build": "yarn ncc:build:release",
+    "ncc:clean": "yarn ncc:clean:xpath-get && yarn ncc:clean:xpath-set",
+    "ncc:clean:xpath-get": "rm -rf dist/xpath-get/",
+    "ncc:clean:xpath-set": "rm -rf dist/xpath-set/",
+    "ncc:post-clean:xpath-get": "rm -rf dist/xpath-get/*.hbs && rm -rf dist/xpath-get/locales",
+    "ncc:post-clean:xpath-set": "rm -rf dist/xpath-set/*.hbs && rm -rf dist/xpath-set/locales",
+    "ncc:build:release:build:xpath-get": "ncc build bin/xpath-get.js -m -q -o dist/xpath-get",
+    "ncc:build:release:build:xpath-set": "ncc build bin/xpath-set.js -m -q -o dist/xpath-set",
+    "ncc:build:debug:build:xpath-get": "ncc build bin/xpath-get.js -q -o dist/xpath-get",
+    "ncc:build:debug:build:xpath-set": "ncc build bin/xpath-set.js -q -o dist/xpath-set",
+    "ncc:build:release:xpath-get": "yarn ncc:clean:xpath-get && yarn ncc:build:release:build:xpath-get && yarn ncc:post-clean:xpath-get",
+    "ncc:build:release:xpath-set": "yarn ncc:clean:xpath-set && yarn ncc:build:release:build:xpath-set && yarn ncc:post-clean:xpath-set",
+    "ncc:build:debug:xpath-get": "yarn ncc:clean:xpath-get && yarn ncc:build:debug:build:xpath-get && yarn ncc:post-clean:xpath-get",
+    "ncc:build:debug:xpath-set": "yarn ncc:clean:xpath-set && yarn ncc:build:debug:build:xpath-set && yarn ncc:post-clean:xpath-set",
+    "ncc:build:release": "yarn ncc:build:release:xpath-get && yarn ncc:build:release:xpath-set",
+    "ncc:build:debug": "yarn ncc:build:debug:xpath-get && yarn ncc:build:debug:xpath-set",
+    "prepublishOnly": "yarn ncc:build"
   },
   "dependencies": {
     "chalk": "^2.4.2",
@@ -28,13 +45,14 @@
     "yargs": "^13.2.2"
   },
   "bin": {
-    "xpath-get": "./bin/xpath-get.js",
-    "xpath-set": "./bin/xpath-set.js",
+    "xpath-get": "./dist/xpath-get/index.js",
+    "xpath-set": "./dist/xpath-set/index.js",
     "moment-date": "./bin/moment-date.js",
     "my-service": "./bin/my-service.js",
     "strip-accents": "./bin/strip-accents.js"
   },
   "devDependencies": {
+    "@zeit/ncc": "^0.17.0",
     "pkg": "^4.3.7"
   }
 }

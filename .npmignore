@@ -1,2 +1,6 @@
 pkg
 pkg-config
+.vscode
+bin/moment-date.js
+bin/xpath-get.js
+bin/xpath-set.js

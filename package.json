@@ -58,7 +58,7 @@
     "strip-accents": "./bin/strip-accents.js"
   },
   "devDependencies": {
-    "@zeit/ncc": "^0.17.4",
+    "@zeit/ncc": "^0.18.0",
     "pkg": "^4.3.7"
   }
 }

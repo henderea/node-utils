@@ -4,3 +4,4 @@ pkg-config
 bin/moment-date.js
 bin/xpath-get.js
 bin/xpath-set.js
+bin/nat-exec.js

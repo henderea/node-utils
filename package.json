@@ -7,13 +7,6 @@
   "repository": "henderea/node-utils.git",
   "license": "MIT",
   "scripts": {
-    "pkg:clean": "rm -rf pkg",
-    "pkg:xpath-get": "pkg pkg-config/xpath-get.config.json --out-path pkg",
-    "pkg:xpath-set": "pkg pkg-config/xpath-set.config.json --out-path pkg",
-    "pkg:moment-date": "pkg pkg-config/moment-date.config.json --out-path pkg",
-    "pkg:my-service": "pkg pkg-config/my-service.config.json --out-path pkg",
-    "pkg:strip-accents": "pkg pkg-config/strip-accents.config.json --out-path pkg",
-    "pkg": "yarn pkg:clean && yarn pkg:xpath-get && yarn pkg:xpath-set && yarn pkg:moment-date && yarn pkg:my-service && yarn pkg:strip-accents",
     "ncc:build": "yarn ncc:build:release:all",
     "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec",
     "ncc:clean": "./scripts/ncc-clean.sh",
@@ -28,15 +21,21 @@
   },
   "dependencies": {
     "chalk": "^2.4.2",
+    "lodash": "^4.17.11",
+    "yargs": "^13.2.2"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.18.2",
+    "any-shell-escape": "^0.1.1",
+    "arg": "^4.1.0",
     "diff": "^4.0.1",
     "inquirer": "^6.3.1",
-    "lodash": "^4.17.11",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.2.2",
     "moment-timezone": "^0.5.25",
+    "natural-orderby": "^2.0.3",
     "xmldom": "^0.1.27",
-    "xpath": "^0.0.27",
-    "yargs": "^13.2.2"
+    "xpath": "^0.0.27"
   },
   "bin": {
     "xpath-get": "./dist/xpath-get/index.js",
@@ -45,12 +44,5 @@
     "nat-exec": "./dist/nat-exec/index.js",
     "my-service": "./bin/my-service.js",
     "strip-accents": "./bin/strip-accents.js"
-  },
-  "devDependencies": {
-    "@zeit/ncc": "^0.18.2",
-    "any-shell-escape": "^0.1.1",
-    "arg": "^4.1.0",
-    "natural-orderby": "^2.0.3",
-    "pkg": "^4.3.8"
   }
 }

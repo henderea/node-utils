@@ -5,4 +5,5 @@ bin/moment-date.js
 bin/xpath-get.js
 bin/xpath-set.js
 bin/nat-exec.js
+bin/my-service.js
 scripts

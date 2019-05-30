@@ -1,4 +1,11 @@
 #!/usr/bin/env node
+
+const util = require('../lib/my-service/common/util');
+
+if(process.env.ITERM_SESSION_ID) {
+    util.setTitle('my-service');
+}
+
 const _ = require('lodash');
 const chalk = require('chalk');
 const yargs = require('yargs');

@@ -7,12 +7,9 @@ const xpath = require('xpath');
 const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
-const _each = require('lodash/each');
-const _some = require('lodash/some');
 const _compact = require('lodash/compact');
-const _map = require('lodash/map');
 const jsdiff = require('diff');
-const { style, styles } = require('../lib/common/util');
+const { style, styles } = require('@henderea/simple-colors');
 const { bold, underline, red, green, cyan } = styles;
 
 const arg = require('arg');
@@ -97,17 +94,17 @@ var results = evaluator.evaluate({
 if(!results || results.length == 0) {
     process.exit(1);
 } else {
-    _each(results.nodes, (node) => {
+    results.nodes.forEach((node) => {
         node.textContent = options.new_value;
     });
     const newData = new serializer().serializeToString(doc);
     const diff = jsdiff.diffLines(data, newData);
-    const hasChanges = _some(diff, part => part.added || part.removed);
+    const hasChanges = diff.some(part => part.added || part.removed);
     if(!hasChanges) {
         console.log('No changes');
         process.exit(0);
     }
-    console.log(_compact(_map(diff, (part) => {
+    console.log(_compact(diff.map((part) => {
         const color = part.added ? green : part.removed ? red : null;
         if(color) {
             return color(part.value.replace(/\n/g, ''));

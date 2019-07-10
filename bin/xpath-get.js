@@ -6,8 +6,7 @@ const xpath = require('xpath');
 const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
-const _map = require('lodash/map');
-const { style, styles } = require('../lib/common/util');
+const { style, styles } = require('@henderea/simple-colors');
 const { bold, underline, red, green, cyan } = styles;
 
 const arg = require('arg');
@@ -62,5 +61,5 @@ if(!results || results.length == 0) {
     process.exit(1);
 } else {
     const ser = new serializer();
-    console.log(_map(results.nodes, (r) => ser.serializeToString(r)).join('\n'));
+    console.log(results.nodes.map((r) => ser.serializeToString(r)).join('\n'));
 }

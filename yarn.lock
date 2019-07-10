@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@henderea/simple-colors@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.0.1.tgz#b0328d0a44fa73ee01b98d5dc24b26636edb5662"
+  integrity sha512-XSdY5InHpK2ehDs9dJlrcxeWuWT7s2jMlka4C1PU7qLEwvH7zwX+oHzYJugj5vfHwb+wxbwaJbxsKmjpq5umyQ==
+  dependencies:
+    lodash "^4.17.14"
+
 "@zeit/ncc@^0.20.4":
   version "0.20.4"
   resolved "https://registry.yarnpkg.com/@zeit/ncc/-/ncc-0.20.4.tgz#00f0a25a88cac3712af4ba66561d9e281c6f05c9"
@@ -252,6 +259,11 @@ lodash@^4.17.11, lodash@^4.17.13:
   version "4.17.13"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.13.tgz#0bdc3a6adc873d2f4e0c4bac285df91b64fc7b93"
   integrity sha512-vm3/XWXfWtRua0FkUyEHBZy8kCPjErNBT9fJx8Zvs+U6zjqPbTUOpkaoum3O5uiA8sm+yNMHXfYkTUHFoMxFNA==
+
+lodash@^4.17.14:
+  version "4.17.14"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
+  integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==
 
 map-age-cleaner@^0.1.1:
   version "0.1.3"

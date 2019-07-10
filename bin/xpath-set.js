@@ -1,38 +1,88 @@
 #!/usr/bin/env node
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 
 const xpath = require('xpath');
 const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
-const _ = require('lodash');
+const _each = require('lodash/each');
+const _some = require('lodash/some');
+const _compact = require('lodash/compact');
+const _map = require('lodash/map');
 const jsdiff = require('diff');
-const chalk = require('chalk');
-const inquirer = require('inquirer');
-const yargs = require('yargs');
+const { style, styles } = require('../lib/common/util');
+const { bold, underline, red, green, cyan } = styles;
 
-const options = yargs
-    .command('$0 <xml_filename> <xpath_expression> <new_value>', 'set the text content of a node in an xml file via xpath', yargs => {
-        yargs.positional('xml_filename', {
-            describe: 'the path to the XML file being modified',
-            type: 'string',
-            normalize: true
-        }).positional('xpath_expression', {
-            describe: 'the xpath expression pointing to the node to set the text content of',
-            type: 'string'
-        }).positional('new_value', {
-            describe: 'the value to place at the node referenced by xpath_expression',
-            type: 'string'
-        })
-            .alias('y', 'yes')
-            .boolean('y')
-            .describe('y', 'automatically confirm the changes');
-    })
-    .wrap(yargs.terminalWidth())
-    .help('h')
-    .alias('h', 'help')
-    .argv;
+const arg = require('arg');
+const options = arg(
+    {
+        '--help': Boolean,
+        '-h': '--help',
+        '--yes': Boolean,
+        '-y': '--yes'
+    },
+    {
+        permissive: true
+    }
+);
+
+const helpText = `${bold('xpath-set')}
+    Set the text content of a node in an XML file via xpath
+
+${bold('Usage:')}
+    xpath-set ${style(cyan.bright, underline)('<xml_filename>')} ${style(cyan.bright, underline)('<xpath_expression>')} ${style(cyan.bright, underline)('<new_value>')}
+
+${bold('Flags:')}
+    ${green.bright('-h')}, ${green.bright('--help')}    Display this help
+    ${green.bright('-y')}, ${green.bright('--yes')}     Automatically confirm the changes
+
+${bold('Parameters:')}
+    ${style(cyan.bright, underline)('<xml_filename>')}        The path to the XML file being modified
+    ${style(cyan.bright, underline)('<xpath_expression>')}    The xpath expression pointing to the node to set the text content of
+    ${style(cyan.bright, underline)('<new_value>')}           The value to place at the node referenced by ${style(cyan.bright, underline)('xpath_expression')}
+`;
+
+if(options['--help']) {
+    console.log(helpText);
+    process.exit(0);
+}
+
+if(!options._ || options._.length < 3) {
+    console.log(`${style(bold, red)('You did not provide enough arguments.')}
+
+${helpText}`);
+    process.exit(1);
+}
+
+options.yes = options['--yes'];
+options.xml_filename = path.resolve(options._[0]);
+options.xpath_expression = options._[1];
+options.new_value = options._[2];
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stderr
+});
+
+const askSave = async (yes) => {
+    if(yes) return true;
+    return new Promise((resolve, reject) => {
+        rl.question(`${green('?')} ${bold('Save the changes? [y/N]')}`, response => {
+            response = response.toLowerCase();
+            if(response.length == 0) {
+                resolve(false);
+                return
+            }
+            if(response == 'y' || response == 'yes') {
+                resolve(true);
+                return
+            }
+            resolve(false);
+        });
+    });
+};
 
 const filepath = path.resolve(options.xml_filename);
 const data = fs.readFileSync(filepath, 'UTF-8');
@@ -45,35 +95,29 @@ var results = evaluator.evaluate({
     allowAnyNamespaceForNoPrefix: true
 });
 if(!results || results.length == 0) {
-    exit(1);
+    process.exit(1);
 } else {
-    _.each(results.nodes, (node) => {
+    _each(results.nodes, (node) => {
         node.textContent = options.new_value;
     });
     const newData = new serializer().serializeToString(doc);
     const diff = jsdiff.diffLines(data, newData);
-    const hasChanges = _.some(diff, part => part.added || part.removed);
+    const hasChanges = _some(diff, part => part.added || part.removed);
     if(!hasChanges) {
         console.log('No changes');
         process.exit(0);
     }
-    console.log(_.compact(_.map(diff, (part) => {
-        const color = part.added ? chalk.green : part.removed ? chalk.red : null;
+    console.log(_compact(_map(diff, (part) => {
+        const color = part.added ? green : part.removed ? red : null;
         if(color) {
             return color(part.value.replace(/\n/g, ''));
         } else {
             return null;
         }
     })).join('\n'));
-    var prompt = inquirer.createPromptModule();
-    (options.yes ? Promise.resolve({save: true}) : prompt({
-        type: 'confirm',
-        name: 'save',
-        message: 'Save the changes?',
-        default: false
-    })).then(answers => {
-        if(answers.save) {
+    askSave(options.yes).then(save => {
+        if(save) {
             fs.writeFileSync(filepath, newData);
         }
-    })
+    });
 }

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-const _ = require('lodash');
+const _map = require('lodash/map');
 const moment = require('moment-timezone');
 require('moment-duration-format')(moment);
-const chalk = require('chalk');
 const yargs = require('yargs');
 const options = yargs
     .usage('Usage: $0 [options]')
@@ -71,7 +70,7 @@ if(options.durationFormat && options.date) {
     }
 
     if(options.outputFormat) {
-        console.log(_.map(options.outputFormat, (format) => date.format(format)).join('\n'));
+        console.log(_map(options.outputFormat, (format) => date.format(format)).join('\n'));
     } else {
         console.log(`${+date}`);
     }

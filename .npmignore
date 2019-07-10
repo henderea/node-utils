@@ -6,4 +6,6 @@ bin/xpath-get.js
 bin/xpath-set.js
 bin/nat-exec.js
 bin/my-service.js
+lib/my-service
 scripts
+yarn-error.log

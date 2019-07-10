@@ -6,11 +6,16 @@ if(process.env.ITERM_SESSION_ID) {
     util.setTitle('my-service');
 }
 
-const _ = require('lodash');
-const chalk = require('chalk');
+global.child_processes = [];
+
+process.on('SIGINT', () => {
+    if(global.child_processes.length == 0) {
+        process.exit();
+    }
+});
+
 const yargs = require('yargs');
-const path = require('path');
-const argv = yargs
+yargs
     .usage('Usage: $0 command [args]')
     .wrap(120)
     .command(require('../lib/my-service/disable'))

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@henderea/simple-colors@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.1.0.tgz#a3aed9b02fdffed0818f03f841743b36e07f6aca"
-  integrity sha512-zv7zxd/oydq3DPadY6W2CBqP1axNNS3T2e/YeJuE6RIsUs94Jd/wCwj+uPZPcHECQKKOcwyvm5pCem+0Hq8hrA==
+"@henderea/simple-colors@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.1.2.tgz#d276a3af3da3177b8aa4808de01bb983f2cc9dd6"
+  integrity sha512-AOJedGYOz6iryyzd2TTIhYrgd4p6enZHRpdsOh5D7UUnD0j0gpHgrmAzGEhG+Je6zFn9ZPx+GnuyTfUWGQGD6Q==
   dependencies:
     lodash "^4.17.14"
     strip-ansi "^5.2.0"
@@ -197,10 +197,10 @@ iconv-lite@^0.4.24:
   dependencies:
     safer-buffer ">= 2.1.2 < 3"
 
-inquirer@^6.4.1:
-  version "6.4.1"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.4.1.tgz#7bd9e5ab0567cd23b41b0180b68e0cfa82fc3c0b"
-  integrity sha512-/Jw+qPZx4EDYsaT6uz7F4GJRNFMRdKNeUZw3ZnKV8lyuUgz/YWRCSUAJMZSVhSq4Ec0R2oYnyi6b3d4JXcL5Nw==
+inquirer@^6.5.0:
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-6.5.0.tgz#2303317efc9a4ea7ec2e2df6f86569b734accf42"
+  integrity sha512-scfHejeG/lVZSpvCXpsB4j/wQNPM5JC8kiElOI0OUTwmc1RTpXr4H32/HOlQHcZiYl2z2VElwuCVDRG8vFmbnA==
   dependencies:
     ansi-escapes "^3.2.0"
     chalk "^2.4.2"
@@ -208,7 +208,7 @@ inquirer@^6.4.1:
     cli-width "^2.0.0"
     external-editor "^3.0.3"
     figures "^2.0.0"
-    lodash "^4.17.11"
+    lodash "^4.17.12"
     mute-stream "0.0.7"
     run-async "^2.2.0"
     rxjs "^6.4.0"
@@ -256,7 +256,7 @@ locate-path@^3.0.0:
     p-locate "^3.0.0"
     path-exists "^3.0.0"
 
-lodash@^4.17.11, lodash@^4.17.14:
+lodash@^4.17.12, lodash@^4.17.14:
   version "4.17.14"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.14.tgz#9ce487ae66c96254fe20b599f21b6816028078ba"
   integrity sha512-mmKYbW3GLuJeX+iGP+Y7Gp1AiGHGbXHCOh/jZmrawMmsE7MS4znI3RL2FsjbqOyMayHInjOeykW7PEajUk1/xw==

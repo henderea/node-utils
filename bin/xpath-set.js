@@ -10,7 +10,8 @@ const serializer = xmldom.XMLSerializer;
 const _compact = require('lodash/compact');
 const jsdiff = require('diff');
 const { style, styles } = require('@henderea/simple-colors');
-const { bold, underline, red, green, cyan } = styles;
+const { bold, red, green } = styles;
+const { HelpTextMaker } = require('@henderea/simple-colors/helpText');
 
 const arg = require('arg');
 const options = arg(
@@ -25,21 +26,36 @@ const options = arg(
     }
 );
 
-const helpText = `${bold('xpath-set')}
-    Set the text content of a node in an XML file via xpath
-
-${bold('Usage:')}
-    xpath-set ${style(cyan.bright, underline)('<xml_filename>')} ${style(cyan.bright, underline)('<xpath_expression>')} ${style(cyan.bright, underline)('<new_value>')}
-
-${bold('Flags:')}
-    ${green.bright('-h')}, ${green.bright('--help')}    Display this help
-    ${green.bright('-y')}, ${green.bright('--yes')}     Automatically confirm the changes
-
-${bold('Parameters:')}
-    ${style(cyan.bright, underline)('<xml_filename>')}        The path to the XML file being modified
-    ${style(cyan.bright, underline)('<xpath_expression>')}    The xpath expression pointing to the node to set the text content of
-    ${style(cyan.bright, underline)('<new_value>')}           The value to place at the node referenced by ${style(cyan.bright, underline)('xpath_expression')}
-`;
+const helpText = new HelpTextMaker('xpath-set')
+    .wrap()
+    .title.nl
+    .pushWrap(4)
+    .tab.text('Set the text content of a node in an XML file via xpath').nl
+    .popWrap()
+    .nl
+    .usage.nl
+    .pushWrap(8)
+    .tab.name.space.param('<xml_filename>').space.param('<xpath_expression>').space.param('<new_value>').nl
+    .popWrap()
+    .nl
+    .flags.nl
+    .pushWrap(8)
+    .dict
+    .key.tab.flag('-h', '--help').value.text('Display this help').end.nl
+    .key.tab.flag('-y', '--yes').value.text('Automatically confirm the changes').end.nl
+    .endDict
+    .popWrap()
+    .nl
+    .params.nl
+    .pushWrap(8)
+    .dict
+    .key.tab.param('<xml_filename>').value.text('The path to the XML file being modified').end.nl
+    .key.tab.param('<xpath_expression>').value.text('The xpath expression pointing to the node to set the text content of').end.nl
+    .key.tab.param('<new_value>').value.text('The value to place at the node referenced by ').param('xpath_expression').end.nl
+    .endDict
+    .popWrap()
+    .nl
+    .toString();
 
 if(options['--help']) {
     console.log(helpText);

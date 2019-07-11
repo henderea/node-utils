@@ -7,7 +7,8 @@ const xmldom = require('xmldom');
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
 const { style, styles } = require('@henderea/simple-colors');
-const { bold, underline, red, green, cyan } = styles;
+const { bold, red } = styles;
+const { HelpTextMaker } = require('@henderea/simple-colors/helpText');
 
 const arg = require('arg');
 const options = arg(
@@ -20,19 +21,34 @@ const options = arg(
     }
 );
 
-const helpText = `${bold('xpath-get')}
-    Get a value from an XML file via xpath
-
-${bold('Usage:')}
-    xpath-get ${style(cyan.bright, underline)('<xml_filename>')} ${style(cyan.bright, underline)('<xpath_expression>')}
-
-${bold('Flags:')}
-    ${green.bright('-h')}, ${green.bright('--help')}    Display this help
-
-${bold('Parameters:')}
-    ${style(cyan.bright, underline)('<xml_filename>')}        The path to the XML file being examined
-    ${style(cyan.bright, underline)('<xpath_expression>')}    The xpath expression pointing to the node/value to get
-`;
+const helpText = new HelpTextMaker('xpath-get')
+    .wrap()
+    .title.nl
+    .pushWrap(4)
+    .tab.text('Get a value from an XML file via xpath').nl
+    .popWrap()
+    .nl
+    .usage.nl
+    .pushWrap(8)
+    .tab.name.space.param('<xml_filename>').space.param('<xpath_expression>').nl
+    .popWrap()
+    .nl
+    .flags.nl
+    .pushWrap(8)
+    .dict
+    .key.tab.flag('-h', '--help').value.text('Display this help').end.nl
+    .endDict
+    .popWrap()
+    .nl
+    .params.nl
+    .pushWrap(8)
+    .dict
+    .key.tab.param('<xml_filename>').value.text('The path to the XML file being examined').end.nl
+    .key.tab.param('<xpath_expression>').value.text('The xpath expression pointing to the node/value to get').end.nl
+    .endDict
+    .popWrap()
+    .nl
+    .toString();
 
 if(options['--help']) {
     console.log(helpText);

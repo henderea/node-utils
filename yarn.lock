@@ -2,12 +2,13 @@
 # yarn lockfile v1
 
 
-"@henderea/simple-colors@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.0.1.tgz#b0328d0a44fa73ee01b98d5dc24b26636edb5662"
-  integrity sha512-XSdY5InHpK2ehDs9dJlrcxeWuWT7s2jMlka4C1PU7qLEwvH7zwX+oHzYJugj5vfHwb+wxbwaJbxsKmjpq5umyQ==
+"@henderea/simple-colors@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.1.0.tgz#a3aed9b02fdffed0818f03f841743b36e07f6aca"
+  integrity sha512-zv7zxd/oydq3DPadY6W2CBqP1axNNS3T2e/YeJuE6RIsUs94Jd/wCwj+uPZPcHECQKKOcwyvm5pCem+0Hq8hrA==
   dependencies:
     lodash "^4.17.14"
+    strip-ansi "^5.2.0"
 
 "@zeit/ncc@^0.20.4":
   version "0.20.4"

@@ -132,5 +132,6 @@ if(!results || results.length == 0) {
         if(save) {
             fs.writeFileSync(filepath, newData);
         }
+        process.exit(0);
     });
 }

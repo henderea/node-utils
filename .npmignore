@@ -6,6 +6,7 @@ bin/xpath-get.js
 bin/xpath-set.js
 bin/nat-exec.js
 bin/my-service.js
+bin/strip-accents.js
 lib
 scripts
 yarn-error.log

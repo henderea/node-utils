@@ -8,15 +8,15 @@
   "license": "MIT",
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",
-    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service",
+    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service strip-accents",
     "ncc:clean": "./scripts/ncc-clean.sh",
     "ncc:post-clean": "./scripts/ncc-post_clean.sh",
     "ncc:build:release:build": "./scripts/ncc-build-release-build.sh",
     "ncc:build:debug:build": "./scripts/ncc-build-debug-build.sh",
     "ncc:build:release": "./scripts/ncc-build-release.sh",
     "ncc:build:debug": "./scripts/ncc-build-debug.sh",
-    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service",
-    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service",
+    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service strip-accents",
+    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service strip-accents",
     "prepublishOnly": "yarn ncc:build"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "moment-date": "./dist/moment-date/index.js",
     "nat-exec": "./dist/nat-exec/index.js",
     "my-service": "./dist/my-service/index.js",
-    "strip-accents": "./bin/strip-accents.js"
+    "strip-accents": "./dist/strip-accents/index.js"
   },
   "dependencies": {
     "detect-character-encoding": "^0.8.0"

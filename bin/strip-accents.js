@@ -66,8 +66,12 @@ const iconv = require('iconv-lite');
 
 const readAll = async (stream) => {
     return new Promise((resolve, reject) => {
-        var concatStream = concat((buffer) => {
-            let encodingResult = detectCharacterEncoding(buffer);
+        var concatStream = concat({ encoding: 'buffer' }, (buffer) => {
+            if(!buffer || buffer.length <= 0) { resolve(''); }
+            let encodingResult = null;
+            try {
+                encodingResult = detectCharacterEncoding(buffer);
+            } catch { }
             let encoding = encodingResult ? encodingResult.encoding : 'utf8';
             process.stderr.write(`Using: ${encoding}\n`);
             resolve(iconv.decode(buffer, encoding));

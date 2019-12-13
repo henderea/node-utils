@@ -37,7 +37,7 @@ function __shellEscape(params) {
 
 let list = args._;
 
-list = orderBy(list);
+list = orderBy(list, [v => v.replace(/[_-]/g, ' '), v => v]);
 
 if(!command.includes('@@')) {
     command = `${command} @@`;

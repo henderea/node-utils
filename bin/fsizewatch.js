@@ -69,7 +69,7 @@ if(!options.target || !fs.existsSync(path.resolve(options.target))) {
 }
 
 let target = path.resolve(options.target);
-let isFile = fs.statSync(target).isFile;
+let isFile = fs.statSync(target).isFile();
 
 let format = options.format;
 let formatMissing = !format;

@@ -162,7 +162,7 @@ let printInfo = (p) => {
 };
 
 let watcher = chokidar.watch(target, {
-    ignoreInitial: true
+    ignoreInitial: !isFile
 });
 watcher.on('add', printInfo);
 watcher.on('change', printInfo);

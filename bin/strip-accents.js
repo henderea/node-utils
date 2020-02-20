@@ -72,7 +72,7 @@ const readAll = async (stream) => {
             try {
                 encodingResult = jschardet.detect(buffer);
             } catch { }
-            let encoding = encodingResult ? encodingResult.encoding : 'utf8';
+            let encoding = (encodingResult && encodingResult.encoding) ? encodingResult.encoding : 'utf8';
             process.stderr.write(`Using: ${encoding}\n`);
             resolve(iconv.decode(buffer, encoding));
         });

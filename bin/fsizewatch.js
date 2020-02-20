@@ -47,7 +47,7 @@ const helpText = new HelpTextMaker('fsizewatch')
     .endDict
     .popWrap()
     .nl
-    .toString(120);
+    .toString(125);
 
 let options = null;
 try {

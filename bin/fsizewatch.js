@@ -25,6 +25,8 @@ const helpText = new HelpTextMaker('fsizewatch')
     .key.tab.flag('--human-sizes', '-h').value.text('Display sizes in human-readable units').end.nl
     .key.tab.flag('--kilobyte', '-k').value.text('Display sizes in kilobytes').end.nl
     .key.tab.flag('--megabyte', '-m').value.text('Display sizes in megabytes').end.nl
+    .key.tab.flag('--poll', '-p').value.text('Use polling instead of fs-events on mac').end.nl
+    .key.tab.flag('--poll-interval', '-i').value.text('The polling interval in milliseconds. Defaults to 1000 ms').end.nl
     .key.tab.flag('--help').value.text('Print this help').end.nl
     .endDict
     .popWrap()
@@ -56,6 +58,8 @@ try {
         .bool('humanSizes', '--human-sizes', '-h')
         .bool('kilobyte', '--kilobyte', '-k')
         .bool('megabyte', '--megabyte', '-m')
+        .bool('poll', '--poll', '-p')
+        .number('pollInterval', '--poll-interval', '-i')
         .help(helpText, '--help')
         .argv;
 } catch(e) {
@@ -161,8 +165,14 @@ let printInfo = (p) => {
     }
 };
 
+let usePolling = !!options.poll;
+
+let interval = options.pollInterval || 1000;
+
 let watcher = chokidar.watch(target, {
-    ignoreInitial: !isFile
+    ignoreInitial: !isFile,
+    usePolling,
+    interval
 });
 watcher.on('add', printInfo);
 watcher.on('change', printInfo);

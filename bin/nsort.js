@@ -14,7 +14,7 @@ const args = arg(
 );
 
 const concat = require('concat-stream');
-const detectCharacterEncoding = require('detect-character-encoding');
+const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 
 const readAll = async (stream) => {
@@ -23,7 +23,7 @@ const readAll = async (stream) => {
             if(!buffer || buffer.length <= 0) { resolve(''); }
             let encodingResult = null;
             try {
-                encodingResult = detectCharacterEncoding(buffer);
+                encodingResult = jschardet.detect(buffer);
             } catch { }
             let encoding = encodingResult ? encodingResult.encoding : 'utf8';
             resolve(iconv.decode(buffer, encoding));

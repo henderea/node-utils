@@ -30,6 +30,7 @@
     "diff": "^4.0.2",
     "iconv-lite": "^0.5.1",
     "inquirer": "^7.0.4",
+    "jschardet": "^2.1.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
@@ -50,7 +51,6 @@
     "fsizewatch": "./dist/fsizewatch/index.js"
   },
   "dependencies": {
-    "chokidar": "^3.3.1",
-    "detect-character-encoding": "^0.8.0"
+    "chokidar": "^3.3.1"
   }
 }

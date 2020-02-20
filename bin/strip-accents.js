@@ -61,7 +61,7 @@ const mappings = [
 const stripAccents = (str) => mappings.reduce((s, e) => s.replace(e[0], e[1]), str);
 
 const concat = require('concat-stream');
-const detectCharacterEncoding = require('detect-character-encoding');
+const jschardet = require('jschardet');
 const iconv = require('iconv-lite');
 
 const readAll = async (stream) => {
@@ -70,7 +70,7 @@ const readAll = async (stream) => {
             if(!buffer || buffer.length <= 0) { resolve(''); }
             let encodingResult = null;
             try {
-                encodingResult = detectCharacterEncoding(buffer);
+                encodingResult = jschardet.detect(buffer);
             } catch { }
             let encoding = encodingResult ? encodingResult.encoding : 'utf8';
             process.stderr.write(`Using: ${encoding}\n`);

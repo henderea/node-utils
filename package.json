@@ -34,7 +34,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-duration-format": "^2.3.2",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.28",
     "natural-orderby": "^2.0.3",
     "xmldom": "^0.2.1",
     "xpath": "^0.0.27",

@@ -32,14 +32,17 @@ const createChoices = async git => {
 
 inquirer.registerPrompt('git-add-checkbox', require('../lib/git-add-interactive-checkbox-prompt'));
 
+const getPageSize = async (git, defaultValue = 20) => {
+    const rawPageSize = (await git.raw(['config', 'add-interactive.pageSize']) || '').trim();
+    return /^\d+$/.test(rawPageSize) ? parseInt(rawPageSize) : defaultValue;
+}
+
 async function run() {
     const git = simpleGit();
 
     const choices = await createChoices(git);
 
-    const rawPageSize = (await git.raw(['config', 'add-interactive.pageSize']) || '').trim();
-
-    const pageSize = /^\d+$/.test(rawPageSize) ? parseInt(rawPageSize) : 20;
+    const pageSize = await getPageSize(git);
 
     await inquirer.prompt({ type: 'git-add-checkbox', name: 'Staging', message: '', choices, git, createChoices, pageSize });
 }

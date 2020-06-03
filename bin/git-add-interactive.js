@@ -37,7 +37,11 @@ async function run() {
 
     const choices = await createChoices(git);
 
-    await inquirer.prompt({ type: 'git-add-checkbox', name: 'Staging', message: '', choices, git, createChoices });
+    const rawPageSize = (await git.raw(['config', 'add-interactive.pageSize']) || '').trim();
+
+    const pageSize = /^\d+$/.test(rawPageSize) ? parseInt(rawPageSize) : 20;
+
+    await inquirer.prompt({ type: 'git-add-checkbox', name: 'Staging', message: '', choices, git, createChoices, pageSize });
 }
 
 run();

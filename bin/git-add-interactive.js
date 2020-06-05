@@ -15,17 +15,17 @@ const createChoices = async git => {
     const deletedFiles = status.files.filter(f => f.index == 'D' || f.working_dir == 'D')
     const otherFiles = status.files.filter(f => !['?', 'A', 'N', 'D'].includes(f.index) && f.working_dir != 'D');
 
-    if(newFiles.length > 0) {
-        choices.push(new inquirer.Separator(' = New Files = '));
-        fileSorter(newFiles).map(f => ({ name: f.path, checked: determineChecked(f) })).forEach(c => choices.push(c));
+    if(otherFiles.length > 0) {
+        choices.push(new inquirer.Separator(' = Modified Files = '));
+        fileSorter(otherFiles).map(f => ({ name: f.path, checked: determineChecked(f) })).forEach(c => choices.push(c));
     }
     if(deletedFiles.length > 0) {
         choices.push(new inquirer.Separator(' = Deleted Files = '));
         fileSorter(deletedFiles).map(f => ({ name: f.path, checked: determineChecked(f) })).forEach(c => choices.push(c));
     }
-    if(otherFiles.length > 0) {
-        if(choices.length > 0) { choices.push(new inquirer.Separator(' = Other Files = ')); }
-        fileSorter(otherFiles).map(f => ({ name: f.path, checked: determineChecked(f) })).forEach(c => choices.push(c));
+    if(newFiles.length > 0) {
+        choices.push(new inquirer.Separator(' = New Files = '));
+        fileSorter(newFiles).map(f => ({ name: f.path, checked: determineChecked(f) })).forEach(c => choices.push(c));
     }
     return choices;
 }

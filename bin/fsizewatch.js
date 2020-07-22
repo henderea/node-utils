@@ -159,8 +159,9 @@ let latestSizes = {};
 
 let printInfo = (p) => {
     let size = fs.statSync(path.resolve(p)).size;
-    if(latestSizes[p] != size) {
-        latestSizes[p] = size;
+    let sizeString = formatSize(size);
+    if(latestSizes[p] != sizeString) {
+        latestSizes[p] = sizeString;
         console.log(applyFormat(p, size, moment()));
     }
 };

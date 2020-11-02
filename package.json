@@ -34,15 +34,15 @@
     "inquirer": "^7.3.3",
     "jschardet": "^2.2.1",
     "lodash": "^4.17.20",
-    "moment": "^2.29.0",
+    "moment": "^2.29.1",
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.31",
     "natural-orderby": "^2.0.3",
     "rxjs": "^6.6.3",
-    "simple-git": "^2.20.1",
-    "xmldom": "^0.3.0",
-    "xpath": "^0.0.29",
-    "yargs": "^16.0.3"
+    "simple-git": "^2.21.0",
+    "xmldom": "^0.4.0",
+    "xpath": "^0.0.32",
+    "yargs": "^16.1.0"
   },
   "bin": {
     "xpath-get": "./dist/xpath-get/index.js",
@@ -56,6 +56,6 @@
     "git-add-interactive": "./dist/git-add-interactive/index.js"
   },
   "dependencies": {
-    "chokidar": "^3.4.2"
+    "chokidar": "^3.4.3"
   }
 }

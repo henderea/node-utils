@@ -7,14 +7,14 @@
   resolved "https://registry.yarnpkg.com/@henderea/arg-helper/-/arg-helper-1.2.1.tgz#c04f96f1153b6dc0d44e0d564a076c873186c7bb"
   integrity sha512-odhIeuhG/91i96i9zyh4+7ev4Cc9W0xH2JHUt7hdaiJ7Z/EnDAWM9uUTmNWIEepuFn5PzhVIeL1wqAJPMp5EUA==
 
-"@henderea/simple-colors@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.3.3.tgz#92f278b1f8d3a82bf4386ff8d0276a33a030d37d"
-  integrity sha512-oaM8Uhidu2jrujozWNiPe+UPItnnY/mtrBaVGLSQ6mHFjZby1hpyx3ohSInrJ3NUX/l+tz4n/9VC7L4p3aCq5g==
+"@henderea/simple-colors@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.3.4.tgz#a135d34f299e2472b7531c33a93f16af61d5c809"
+  integrity sha512-i0fY26W81T85S9gm/ZLf/gFpUbqUD2miXa+8cDAmDtKxczAOknwXB6FJNaQorr4Ma8u8UDoASvY6FPIpLA3cRQ==
   dependencies:
     lodash "^4.17.20"
     strip-ansi "^6.0.0"
-    supports-color "^7.2.0"
+    supports-color "^8.1.1"
 
 "@kwsites/file-exists@^1.1.1":
   version "1.1.1"
@@ -454,10 +454,17 @@ strip-ansi@^6.0.0:
   dependencies:
     ansi-regex "^5.0.0"
 
-supports-color@^7.1.0, supports-color@^7.2.0:
+supports-color@^7.1.0:
   version "7.2.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-7.2.0.tgz#1b7dcdcb32b8138801b3e478ba6a51caa89648da"
   integrity sha512-qpCAvRl9stuOHveKsn7HncJRvv501qIacKzQlO/+Lwxc9+0q2wLyv4Dfvt80/DPn2pqOBsJdDiogXGR9+OvwRw==
+  dependencies:
+    has-flag "^4.0.0"
+
+supports-color@^8.1.1:
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-8.1.1.tgz#cd6fc17e28500cff56c1b86c0a7fd4a54a73005c"
+  integrity sha512-MpUEN2OodtUzxvKQl72cUF7RQ5EiHsGvSsVG0ia9c5RbWGL2CI4C7EpPS8UTBIplnlzZiNuV56w+FuNxy3ty2Q==
   dependencies:
     has-flag "^4.0.0"
 

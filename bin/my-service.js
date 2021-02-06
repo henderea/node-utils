@@ -28,6 +28,8 @@ yargs
     .command(require('../lib/my-service/start'))
     .command(require('../lib/my-service/stop'))
     .command(require('../lib/my-service/restart'))
+    .command(require('../lib/my-service/load'))
+    .command(require('../lib/my-service/unload'))
     .command(require('../lib/my-service/status'))
     .option('p', {
         alias: 'prefix',

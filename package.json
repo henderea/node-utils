@@ -8,15 +8,15 @@
   "license": "MIT",
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",
-    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive",
+    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
     "ncc:clean": "./scripts/ncc-clean.sh",
     "ncc:post-clean": "./scripts/ncc-post_clean.sh",
     "ncc:build:release:build": "./scripts/ncc-build-release-build.sh",
     "ncc:build:debug:build": "./scripts/ncc-build-debug-build.sh",
     "ncc:build:release": "./scripts/ncc-build-release.sh",
     "ncc:build:debug": "./scripts/ncc-build-debug.sh",
-    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive",
-    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive",
+    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
+    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
     "prepublishOnly": "yarn ncc:build"
   },
   "devDependencies": {
@@ -53,7 +53,8 @@
     "strip-accents": "dist/strip-accents/index.js",
     "nsort": "dist/nsort/index.js",
     "fsizewatch": "dist/fsizewatch/index.js",
-    "git-add-interactive": "dist/git-add-interactive/index.js"
+    "git-add-interactive": "dist/git-add-interactive/index.js",
+    "my-math": "dist/my-math/index.js"
   },
   "dependencies": {
     "chokidar": "^3.5.1"

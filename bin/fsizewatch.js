@@ -54,13 +54,12 @@ try {
     options = argParser()
         .string('target', '--target', '-t')
         .string('format', '--format', '-f')
-        .bool('help', '--help', '-h')
         .bool('humanSizes', '--human-sizes', '-h')
         .bool('kilobyte', '--kilobyte', '-k')
         .bool('megabyte', '--megabyte', '-m')
         .bool('poll', '--poll', '-p')
         .number('pollInterval', '--poll-interval', '-i')
-        .help(helpText, '--help')
+        .help(helpText, '--help', '-h')
         .argv;
 } catch(e) {
     console.error(red.bright(`${bold('Error in arguments:')} ${e.message}`));

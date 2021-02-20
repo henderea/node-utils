@@ -7,12 +7,12 @@
   resolved "https://registry.yarnpkg.com/@henderea/arg-helper/-/arg-helper-1.2.1.tgz#c04f96f1153b6dc0d44e0d564a076c873186c7bb"
   integrity sha512-odhIeuhG/91i96i9zyh4+7ev4Cc9W0xH2JHUt7hdaiJ7Z/EnDAWM9uUTmNWIEepuFn5PzhVIeL1wqAJPMp5EUA==
 
-"@henderea/simple-colors@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.3.7.tgz#418036559885b7df37b45b8fca91c274a7d0fe3a"
-  integrity sha512-yBY+RduoN7Wwu4/fexsjbVusrrx6IGdJLN8a4FQnM9MSOoJAPINdujZ//GjvFPytTvgwwiz4srYgDgPzyG74MQ==
+"@henderea/simple-colors@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.4.3.tgz#c59f1e937ea9b93cd58d2784962623ac53a7caff"
+  integrity sha512-tTwuR/XE78bJX7eCUPeAiIaBGVEuR3U7RKup1Pb/QEgDtmYJ5Z/0B6eVhxsqsi0S+X2VxOzz1I/56gmrRp7C/g==
   dependencies:
-    lodash "^4.17.20"
+    lodash "^4.17.21"
     strip-ansi "^6.0.0"
     supports-color "^8.1.1"
 
@@ -306,6 +306,11 @@ lodash@^4.17.19, lodash@^4.17.20:
   version "4.17.20"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
+
+lodash@^4.17.21:
+  version "4.17.21"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
+  integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
 
 mimic-fn@^2.1.0:
   version "2.1.0"

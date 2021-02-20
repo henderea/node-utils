@@ -59,7 +59,7 @@ try {
         .bool('megabyte', '--megabyte', '-m')
         .bool('poll', '--poll', '-p')
         .number('pollInterval', '--poll-interval', '-i')
-        .help(helpText, '--help', '-h')
+        .help(helpText, '--help')
         .argv;
 } catch(e) {
     console.error(red.bright(`${bold('Error in arguments:')} ${e.message}`));

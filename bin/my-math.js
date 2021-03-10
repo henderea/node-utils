@@ -29,6 +29,8 @@ const helpText = new HelpTextMaker('my-math')
     .key.tab.flag('--ceil', '-c').value.text('Round the result ').bold('up').text(' before outputting it').end.nl
     .key.tab.flag('--floor', '-f').value.text('Round the result ').bold('down').text(' before outputting it').end.nl
     .nl
+    .key.tab.flag('--format', '--to', '-t').value.text('Format the value in a specific way. Supports byte formatting. Use lower case for base 1000, upper case for base 1024. Use ').bold(magenta('h')).text('/').bold(magenta('H')).text(' for automatic selection, or ').bold(magenta('b')).text('/').bold(magenta('B')).text('/').bold(magenta('k')).text('/').bold(magenta('K')).text('/').bold(magenta('m')).text('/').bold(magenta('M')).text('/').bold(magenta('g')).text('/').bold(magenta('G')).text('/').bold(magenta('t')).text('/').bold(magenta('T')).text(' for a specific unit. You can also add a number to the end of the format key to specify the maximum number of decimal places (i.e. "').flag('--format').text(' ').bold(magenta('h0')).text('" or "').flag('--format').text(' ').bold(magenta('m4')).text('"). If not specified, the default of 2 decimal places will be used. Note that this decimal place setting does not affect values that are in bytes.').end.nl
+    .nl
     .key.tab.flag('--help', '-h').value.text('Print this help').end.nl
     .end
     .popWrap()
@@ -56,6 +58,7 @@ try {
         .bool('round', '--round', '-r')
         .bool('ceil', '--ceil', '-c')
         .bool('floor', '--floor', '-f')
+        .string('format', '--format', '--to', '-t')
         .help(helpText, '--help', '-h')
         .argv;
 } catch(e) {
@@ -90,11 +93,59 @@ function getRound(options) {
     return noop;
 }
 
+function getFormat(options) {
+    const upperMatch = ['H', '', 'K', 'M', 'G', 'T'];
+    const lowerMatch = ['h', '', 'k', 'm', 'g', 't'];
+    const upperUnits = upperMatch.slice(1);
+    const lowerUnits = lowerMatch.slice(1);
+
+    let formatSize = (size, unitIndex, units, factor, digits) => {
+        if(unitIndex < 0) {
+            if(Math.abs(size) < 1) {
+                unitIndex = 0;
+            } else {
+                unitIndex = Math.floor(Math.log(Math.abs(size)) / Math.log(factor));
+            }
+        }
+        if(unitIndex < 0) {
+            unitIndex = 0;
+        }
+        if(unitIndex >= units.length) {
+            unitIndex = units.length - 1;
+        }
+        let unit = units[unitIndex];
+        if(unitIndex == 0) {
+            return `${Math.floor(size)} ${unit}B`
+        } else {
+            return `${(size / Math.pow(factor, unitIndex)).toLocaleString('en-US', { maximumFractionDigits: digits })} ${unit}B`;
+        }
+    };
+    if(!options.format || options.format == '') { return v => v; }
+    let matches = /^([hbkmgt])(\d+)?$/i.exec(options.format);
+    if(!matches) { return v => v; }
+    let u = matches[1];
+    let d = parseInt(matches[2]);
+    if(Number.isNaN(d)) { d = 2; }
+    if(['b', 'B'].indexOf(u) >= 0) {
+        return v => `${v} B`;
+    }
+    if(upperMatch.indexOf(u) >= 0) {
+        const unitInd = upperMatch.indexOf(u) - 1;
+        return v => formatSize(v, unitInd, upperUnits, 1024.0, d);
+    }
+    if(lowerMatch.indexOf(u) >= 0) {
+        const unitInd = lowerMatch.indexOf(u) - 1;
+        return v => formatSize(v, unitInd, lowerUnits, 1000.0, d);
+    }
+    return v => v;
+}
+
 function processOpts(options) {
     const op = getOp(options);
     const round = getRound(options);
+    const format = getFormat(options);
     const items = options._.map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
-    return { op, round, items };
+    return { op, round, format, items };
 }
 
 function exec(func, options) {
@@ -114,7 +165,7 @@ function exec(func, options) {
 }
 
 exec(options => {
-    const { op, round, items } = processOpts(options);
-    if(items.length == 0  && !options.count) { return ['-', 1]; }
-    return round(op(items));
+    const { op, round, format, items } = processOpts(options);
+    if(items.length == 0 && !options.count) { return ['-', 1]; }
+    return format(round(op(items)));
 }, options);

@@ -140,16 +140,41 @@ function getFormat(options) {
     return v => v;
 }
 
-function processOpts(options) {
+const concat = require('concat-stream');
+const jschardet = require('jschardet');
+const iconv = require('iconv-lite');
+
+const readAll = async (stream) => {
+    return new Promise((resolve, reject) => {
+        var concatStream = concat({ encoding: 'buffer' }, (buffer) => {
+            if(!buffer || buffer.length <= 0) { resolve(''); }
+            let encodingResult = null;
+            try {
+                encodingResult = jschardet.detect(buffer);
+            } catch { }
+            let encoding = (encodingResult && encodingResult.encoding) ? encodingResult.encoding : 'utf8';
+            resolve(iconv.decode(buffer, encoding));
+        });
+        stream.on('error', reject);
+        stream.pipe(concatStream);
+    });
+};
+
+async function processOpts(options) {
     const op = getOp(options);
     const round = getRound(options);
     const format = getFormat(options);
     const items = options._.map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
+    if(!process.stdin.isTTY) {
+        const inp = await readAll(process.stdin);
+        const inpItems = inp.split(/\r?\n/g).map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
+        items.push(...inpItems);
+    }
     return { op, round, format, items };
 }
 
-function exec(func, options) {
-    const rv = func(options);
+async function exec(func, options) {
+    const rv = await func(options);
     let output;
     let code;
     if(Array.isArray(rv) && rv.length == 2) {
@@ -164,8 +189,8 @@ function exec(func, options) {
     process.exit(code);
 }
 
-exec(options => {
-    const { op, round, format, items } = processOpts(options);
+exec(async options => {
+    const { op, round, format, items } = await processOpts(options);
     if(items.length == 0 && !options.count) { return ['-', 1]; }
     return format(round(op(items)));
 }, options);

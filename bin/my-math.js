@@ -3,6 +3,9 @@
 const { argParser } = require('@henderea/arg-helper')(require('arg'));
 const { HelpTextMaker, styles, style } = require('@henderea/simple-colors/helpText');
 const { magenta, red, green, bold } = styles;
+const _round = require('lodash/round');
+const _floor = require('lodash/floor');
+const _ceil = require('lodash/ceil');
 
 const helpText = new HelpTextMaker('my-math')
     .wrap()
@@ -28,6 +31,7 @@ const helpText = new HelpTextMaker('my-math')
     .key.tab.flag('--round', '-r').value.text('Round the result before outputting it').end.nl
     .key.tab.flag('--ceil', '-c').value.text('Round the result ').bold('up').text(' before outputting it').end.nl
     .key.tab.flag('--floor', '-f').value.text('Round the result ').bold('down').text(' before outputting it').end.nl
+    .key.tab.flag('--places', '-p').value.text('Round to a specific number of places').end.nl
     .nl
     .key.tab.flag('--format', '--to', '-t').value.text('Format the value in a specific way. Supports byte formatting. Use lower case for base 1000, upper case for base 1024. Use ').bold(magenta('h')).text('/').bold(magenta('H')).text(' for automatic selection, or ').bold(magenta('b')).text('/').bold(magenta('B')).text('/').bold(magenta('k')).text('/').bold(magenta('K')).text('/').bold(magenta('m')).text('/').bold(magenta('M')).text('/').bold(magenta('g')).text('/').bold(magenta('G')).text('/').bold(magenta('t')).text('/').bold(magenta('T')).text(' for a specific unit. You can also add a number to the end of the format key to specify the maximum number of decimal places (i.e. "').flag('--format').text(' ').bold(magenta('h0')).text('" or "').flag('--format').text(' ').bold(magenta('m4')).text('"). If not specified, the default of 2 decimal places will be used. Note that this decimal place setting does not affect values that are in bytes.').end.nl
     .nl
@@ -59,6 +63,7 @@ try {
         .bool('ceil', '--ceil', '-c')
         .bool('floor', '--floor', '-f')
         .string('format', '--format', '--to', '-t')
+        .number('places', '--places', '-p')
         .help(helpText, '--help', '-h')
         .argv;
 } catch(e) {
@@ -82,10 +87,11 @@ function getOp(options) {
 }
 
 function getRound(options) {
+    const places = options.places || 0;
     const noop = v => v;
-    const round = v => Math.round(v);
-    const ceil = v => Math.ceil(v);
-    const floor = v => Math.floor(v);
+    const round = v => _round(v, places);
+    const ceil = v => _ceil(v, places);
+    const floor = v => _floor(v, places);
 
     if(options.round) { return round; }
     if(options.ceil) { return ceil; }

@@ -8,15 +8,15 @@
   "license": "MIT",
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",
-    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
+    "ncc:clean:all": "yarn ncc:clean xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math pushover-notify",
     "ncc:clean": "./scripts/ncc-clean.sh",
     "ncc:post-clean": "./scripts/ncc-post_clean.sh",
     "ncc:build:release:build": "./scripts/ncc-build-release-build.sh",
     "ncc:build:debug:build": "./scripts/ncc-build-debug-build.sh",
     "ncc:build:release": "./scripts/ncc-build-release.sh",
     "ncc:build:debug": "./scripts/ncc-build-debug.sh",
-    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
-    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math",
+    "ncc:build:release:all": "yarn ncc:build:release xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math pushover-notify",
+    "ncc:build:debug:all": "yarn ncc:build:debug xpath-get xpath-set moment-date nat-exec my-service strip-accents nsort fsizewatch git-add-interactive my-math pushover-notify",
     "prepublishOnly": "yarn ncc:build"
   },
   "devDependencies": {
@@ -38,6 +38,7 @@
     "moment-duration-format": "^2.3.2",
     "moment-timezone": "^0.5.33",
     "natural-orderby": "^2.0.3",
+    "pushover-notifications": "^1.2.2",
     "rxjs": "^6.6.7",
     "simple-git": "^2.38.0",
     "xmldom": "^0.5.0",
@@ -54,7 +55,8 @@
     "nsort": "dist/nsort/index.js",
     "fsizewatch": "dist/fsizewatch/index.js",
     "git-add-interactive": "dist/git-add-interactive/index.js",
-    "my-math": "dist/my-math/index.js"
+    "my-math": "dist/my-math/index.js",
+    "pushover-notify": "dist/pushover-notify/index.js"
   },
   "dependencies": {
     "chokidar": "^3.5.1"

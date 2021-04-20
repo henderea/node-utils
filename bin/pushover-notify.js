@@ -63,7 +63,7 @@ async function run(options) {
     const user = options.user;
     const token = options.token;
     const message = options.message;
-    const title = options.title;
+    let title = options.title;
     const errors = [];
     if(!user || user.length == 0) {
         errors.push('You must provide a User Key (--user, -U)');

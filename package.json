@@ -25,7 +25,7 @@
     "@vercel/ncc": "^0.28.3",
     "any-shell-escape": "^0.1.1",
     "arg": "^5.0.0",
-    "chalk": "^4.1.0",
+    "chalk": "^4.1.1",
     "cli-cursor": "^3.1.0",
     "concat-stream": "^2.0.0",
     "diff": "^5.0.0",

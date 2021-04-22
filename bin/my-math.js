@@ -33,6 +33,10 @@ const helpText = new HelpTextMaker('my-math')
     .key.tab.flag('--floor', '-f').value.text('Round the result ').bold('down').text(' before outputting it').end.nl
     .key.tab.flag('--places', '-p').value.text('Round to a specific number of places').end.nl
     .nl
+    .key.tab.flag('--extract-numbers', '-e').value.text('Extract the first numerical value from each value').end.nl
+    .nl
+    .key.tab.flag('--absolute-value', '-A').value.text('Operate on the absolute value of the inputs').end.nl
+    .nl
     .key.tab.flag('--format', '--to', '-t').value.text('Format the value in a specific way. Supports byte formatting. Use lower case for base 1000, upper case for base 1024. Use ').bold(magenta('h')).text('/').bold(magenta('H')).text(' for automatic selection, or ').bold(magenta('b')).text('/').bold(magenta('B')).text('/').bold(magenta('k')).text('/').bold(magenta('K')).text('/').bold(magenta('m')).text('/').bold(magenta('M')).text('/').bold(magenta('g')).text('/').bold(magenta('G')).text('/').bold(magenta('t')).text('/').bold(magenta('T')).text(' for a specific unit. You can also add a number to the end of the format key to specify the maximum number of decimal places (i.e. "').flag('--format').text(' ').bold(magenta('h0')).text('" or "').flag('--format').text(' ').bold(magenta('m4')).text('"). If not specified, the default of 2 decimal places will be used. Note that this decimal place setting does not affect values that are in bytes.').end.nl
     .nl
     .key.tab.flag('--help', '-h').value.text('Print this help').end.nl
@@ -62,6 +66,8 @@ try {
         .bool('round', '--round', '-r')
         .bool('ceil', '--ceil', '-c')
         .bool('floor', '--floor', '-f')
+        .bool('extract', '--extract-numbers', '-e')
+        .bool('abs', '--absolute-value', '-A')
         .string('format', '--format', '--to', '-t')
         .number('places', '--places', '-p')
         .help(helpText, '--help', '-h')
@@ -166,14 +172,29 @@ const readAll = async (stream) => {
     });
 };
 
+function parseNumbers(options, items) {
+    if(options.extract) {
+        return items.map(i => parseFloat(i.replace(/^.*?(-?(?:\d*\.)?\d+).*$/, '$1'))).filter(i => !Number.isNaN(i));
+    }
+    return items.map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
+}
+
+function prepNumbers(options, items) {
+    let rv = parseNumbers(options, items);
+    if(options.abs) {
+        rv = rv.map(Math.abs);
+    }
+    return rv;
+}
+
 async function processOpts(options) {
     const op = getOp(options);
     const round = getRound(options);
     const format = getFormat(options);
-    const items = options._.map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
+    const items = prepNumbers(options, options._);
     if(!process.stdin.isTTY) {
         const inp = await readAll(process.stdin);
-        const inpItems = inp.split(/\r?\n/g).map(i => parseFloat(i)).filter(i => !Number.isNaN(i));
+        const inpItems = prepNumbers(options, inp.split(/\r?\n/g));
         items.push(...inpItems);
     }
     return { op, round, format, items };

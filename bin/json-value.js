@@ -29,6 +29,7 @@ const helpText = new HelpTextMaker('json-value')
   .key.tab.flag('--get', '-g').value.text('Get the data at a specific path from the JSON.').end.nl
   .key.tab.flag('--interactive', '-i').value.text('Load the file(s) in interactive mode. Type the command \\? to see usage information.').end.nl
   .key.tab.flag('--no-format', '-F').value.text('Print the JSON without indentation. Otherwise, it will indent the output.').end.nl
+  .key.tab.flag('--literal', '-l').value.text('When the result is a single value and not a object or array, print it out as-is.').end.nl
   .key.tab.flag('--indent-spaces', '--spaces', '-s').value.text('The number of spaces to indent by when using ').flag('--format', '-f').text('. Defaults to 2.').end.nl
   .end
   .popWrap()
@@ -47,6 +48,7 @@ try {
     .string('get', '--get', '-g')
     .bool('interactive', '--interactive', '-i')
     .bool('noFormat', '--no-format', '-F')
+    .bool('literal', '--literal', '-l')
     .number('indentSpaces', '--indent-spaces', '--spaces', '-s')
     .help(helpText, '--help', '-h')
     .argv;
@@ -140,7 +142,9 @@ function getSuggestions(pathPieces, data, printChildren = false) {
 }
 
 function printJson(data, options) {
-  if(options.noFormat) {
+  if(options.literal && !__.isArray(data) && !__.isObject(data)) {
+    console.log(String(data));
+  } else if(options.noFormat) {
     console.log(JSON.stringify(data));
   } else {
     const spaces = options.indentSpaces || 2;

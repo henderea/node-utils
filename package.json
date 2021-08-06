@@ -48,6 +48,7 @@
     "pushover-notifications": "^1.2.2",
     "rxjs": "^7.3.0",
     "simple-git": "^2.42.0",
+    "ttys": "^0.0.3",
     "xmldom": "^0.6.0",
     "xpath": "^0.0.32",
     "yargs": "^17.1.0"

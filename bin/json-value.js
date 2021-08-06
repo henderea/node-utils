@@ -7,6 +7,8 @@ const { argParser } = require('@henderea/arg-helper')(require('arg'));
 const { HelpTextMaker, styles } = require('@henderea/simple-colors/helpText');
 const { red, bold } = styles;
 
+const ttys = require('ttys');
+
 const { readAll } = require('../lib/utils/readAll');
 const { natSort } = require('../lib/utils/natSort');
 const __ = require('../lib/utils/common.js');
@@ -154,8 +156,8 @@ function printJson(data, options) {
 
 function createReadlineInterface(data) {
   const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+    input: ttys.stdin,
+    output: ttys.stdout,
     prompt: '>> ',
     tabSize: 4,
     completer: () => {

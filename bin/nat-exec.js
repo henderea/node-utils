@@ -1,10 +1,13 @@
 #!/usr/bin/env node
 
-const arg = require('arg');
-const { orderBy } = require('natural-orderby');
-const shellEscape = require('any-shell-escape');
-const _flattenDeep = require('lodash/flattenDeep');
 const child_process = require('child_process');
+
+const arg = require('arg');
+const shellEscape = require('any-shell-escape');
+
+const _flattenDeep = require('lodash/flattenDeep');
+
+const { natSort } = require('../lib/utils/natSort');
 
 const args = arg(
   {
@@ -37,7 +40,7 @@ function __shellEscape(params) {
 
 let list = args._;
 
-list = orderBy(list, [(v) => v.replace(/[_-]/g, ' '), (v) => v]);
+list = natSort(list);
 
 if(!command.includes('@@')) {
   command = `${command} @@`;

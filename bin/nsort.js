@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 const arg = require('arg');
-const { orderBy } = require('natural-orderby');
+
+const { natSort } = require('../lib/utils/natSort');
 const { readAll } = require('../lib/utils/readAll');
 
 const args = arg(
@@ -19,7 +20,7 @@ const run = async () => {
   let trimmedInput = input.replace(/\n$/m, '');
   let endedInNewLine = trimmedInput != input;
   let lines = trimmedInput.split(/\n/g);
-  let sortedLines = orderBy(lines, [(v) => v.replace(/[_-]/g, ' '), (v) => v]);
+  let sortedLines = natSort(lines);
   if(args['--reverse']) { sortedLines = sortedLines.reverse(); }
   process.stdout.write(sortedLines.join('\n'));
   if(endedInNewLine) { process.stdout.write('\n'); }

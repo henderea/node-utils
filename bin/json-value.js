@@ -236,4 +236,4 @@ async function run(options) {
   printJson(data, options);
 }
 
-run(options);
+run(options).then(() => process.exit(0));

@@ -51,7 +51,7 @@
     "ttys": "^0.0.3",
     "xmldom": "^0.6.0",
     "xpath": "^0.0.32",
-    "yargs": "^17.1.0"
+    "yargs": "16.2.0"
   },
   "bin": {
     "xpath-get": "dist/xpath-get/index.js",

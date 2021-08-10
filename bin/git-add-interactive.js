@@ -5,7 +5,7 @@ const inquirer = require('inquirer');
 const { orderBy } = require('natural-orderby');
 const chalk = require('chalk');
 const _pad = require('lodash/pad');
-const figures = require('figures');
+const figures = require('figures').default;
 
 class Separator extends inquirer.Separator {
   constructor(line) {

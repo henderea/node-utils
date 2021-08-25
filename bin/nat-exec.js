@@ -49,7 +49,7 @@ if(!command.includes('@@')) {
 command = command.replace(/@@/g, _shellEscape(list));
 
 try {
-  const { exitCode } = execa.commandSync(command, { stdio: 'inherit' });
+  const { exitCode } = execa.commandSync(command, { stdio: 'inherit', stripFinalNewline: false });
   process.exit(exitCode);
 } catch (e) {
   const { exitCode } = e;

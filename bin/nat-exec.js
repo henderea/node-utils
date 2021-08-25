@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const child_process = require('child_process');
+const execa = require('execa');
 
 const arg = require('arg');
 const shellEscape = require('any-shell-escape');
@@ -48,4 +48,10 @@ if(!command.includes('@@')) {
 
 command = command.replace(/@@/g, _shellEscape(list));
 
-child_process.execSync(command, { stdio: 'inherit' });
+try {
+  const { exitCode } = execa.commandSync(command, { stdio: 'inherit' });
+  process.exit(exitCode);
+} catch (e) {
+  const { exitCode } = e;
+  process.exit(exitCode);
+}

@@ -1,12 +1,17 @@
 #!/usr/bin/env node
 
-const moment = require('moment-timezone');
-require('moment-duration-format')(moment);
-const yargs = require('yargs');
-const options = yargs
+import moment from 'moment-timezone';
+import momentDurationFormat from 'moment-duration-format';
+momentDurationFormat(moment);
+
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
+
+const yargsBuilder = yargs(hideBin(process.argv));
+const options = yargsBuilder
   .usage('Usage: $0 [options]')
   .epilog('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/')
-  .wrap(yargs.terminalWidth())
+  .wrap(yargsBuilder.terminalWidth())
   .help('h')
   .alias('h', 'help')
   .alias('o', ['output-format', 'f', 'format'])

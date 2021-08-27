@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+import fs from 'fs';
+import path from 'path';
+import readline from 'readline';
 
-const xpath = require('xpath');
-const xmldom = require('xmldom');
+import xpath from 'xpath';
+import xmldom from 'xmldom';
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
-const _compact = require('lodash/compact');
-const jsdiff = require('diff');
-const { style, styles } = require('@henderea/simple-colors');
+
+import _compact from 'lodash/compact.js';
+import * as jsdiff from 'diff';
+
+import { HelpTextMaker, style, styles } from '@henderea/simple-colors/helpText.js';
 const { bold, red, green } = styles;
-const { HelpTextMaker } = require('@henderea/simple-colors/helpText');
 
 const arg = require('arg');
 const options = arg(

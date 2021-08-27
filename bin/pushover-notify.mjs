@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
-const Push = require('pushover-notifications');
-const { argParser } = require('@henderea/arg-helper')(require('arg'));
-const { HelpTextMaker, styles, style } = require('@henderea/simple-colors/helpText');
+import Push from 'pushover-notifications';
+
+import { HelpTextMaker, styles, style } from '@henderea/simple-colors/helpText.js';
 const { red, bold } = styles;
+
+import { argParser } from '../lib/utils/arg-helper.mjs';
 
 const helpText = new HelpTextMaker('pushover-notify')
   .wrap()

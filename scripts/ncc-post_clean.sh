@@ -1,10 +1,10 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-_run() {
-    printf '\e[2m$ %s\e[0m\n' "$1"
-    eval "$1"
-}
+source "$(dirname "$0")/_util.sh"
 
 for s; do
+  s="$(_cleanup_param "$s")"
+  if _should_do "$s"; then
     _run "rm -rf dist/$s/*.hbs && rm -rf dist/$s/locales"
+  fi
 done

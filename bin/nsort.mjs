@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-const arg = require('arg');
+import arg from 'arg';
 
-const { natSort } = require('../lib/utils/natSort');
-const { readAll } = require('../lib/utils/readAll');
+import { natSort } from '../lib/utils/natSort.mjs';
+import { readAll } from '../lib/utils/readAll.mjs';
 
 const args = arg(
   {

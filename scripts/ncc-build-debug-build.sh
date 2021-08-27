@@ -1,7 +1,13 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-ncc="$(yarn bin ncc)"
+source "$(dirname "$0")/_util.sh"
+
+ncc="$(yarn bin my-ncc)"
 for s; do
-    printf '\e[2m$ %s\e[0m\n' "ncc build bin/$s.js -q -o dist/$s -e detect-character-encoding -e chokidar"
-    "$ncc" build "bin/$s.js" -q -o "dist/$s" -e detect-character-encoding -e chokidar
+  s="$(_cleanup_param "$s")"
+  if _should_do "$s"; then
+    bin_path="$(_get_bin_path "$s")"
+    _pcmd "my-ncc" "$bin_path" -q -o "dist/$s" ${EXCLUDES[*]}
+    "$ncc" "$bin_path" -q -o "dist/$s" ${EXCLUDES[@]}
+  fi
 done

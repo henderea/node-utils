@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
-const xpath = require('xpath');
-const xmldom = require('xmldom');
+import xpath from 'xpath';
+import xmldom from 'xmldom';
 const dom = xmldom.DOMParser;
 const serializer = xmldom.XMLSerializer;
-const { style, styles } = require('@henderea/simple-colors');
-const { bold, red } = styles;
-const { HelpTextMaker } = require('@henderea/simple-colors/helpText');
 
-const arg = require('arg');
+import { HelpTextMaker, style, styles } from '@henderea/simple-colors/helpText.js';
+const { bold, red } = styles;
+
+import arg from 'arg';
 const options = arg(
   {
     '--help': Boolean,

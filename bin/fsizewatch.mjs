@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
-const path = require('path');
-const fs = require('fs');
-const chokidar = require('chokidar');
-const moment = require('moment-timezone');
-const { argParser } = require('@henderea/arg-helper')(require('arg'));
-const { HelpTextMaker, styles, style } = require('@henderea/simple-colors/helpText');
+import path from 'path';
+import fs from 'fs';
+
+import chokidar from 'chokidar';
+import moment from 'moment-timezone';
+
+import { argParser } from '../lib/utils/arg-helper.mjs';
+import { HelpTextMaker, styles, style } from '@henderea/simple-colors/helpText.js';
 const { magenta, red, bold } = styles;
 
 const ex = magenta.bright;

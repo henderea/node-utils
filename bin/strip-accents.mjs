@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { readAll } = require('../lib/utils/readAll');
+import { readAll } from '../lib/utils/readAll.mjs';
 
 const mappings = [
   [/(\u00E2\u0080\u00A6?)/g, '...'],

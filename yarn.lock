@@ -237,6 +237,16 @@
   resolved "https://registry.yarnpkg.com/@henderea/arg-helper/-/arg-helper-1.2.1.tgz#c04f96f1153b6dc0d44e0d564a076c873186c7bb"
   integrity sha512-odhIeuhG/91i96i9zyh4+7ev4Cc9W0xH2JHUt7hdaiJ7Z/EnDAWM9uUTmNWIEepuFn5PzhVIeL1wqAJPMp5EUA==
 
+"@henderea/my-ncc@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@henderea/my-ncc/-/my-ncc-1.1.0.tgz#a942b94f0bc4c0f4482a3ffad8b0317390d6e62e"
+  integrity sha512-iIGQRU/5zrIxAONfN5JfytKKgFq6mprr9K+4L5DWMPfaUnzdHhDMiRQ/1C9Mz5C6BDWEG1+LfGN6Jj/aWGj5eg==
+  dependencies:
+    "@henderea/arg-helper" "^1.2.1"
+    "@henderea/simple-colors" "^1.5.0"
+    "@vercel/ncc" "^0.29.2"
+    arg "^5.0.1"
+
 "@henderea/simple-colors@^1.5.0":
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/@henderea/simple-colors/-/simple-colors-1.5.0.tgz#dda56f760287c15e0a755879cde88ddb96c003e9"

@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 
-const simpleGit = require('simple-git/promise');
-const inquirer = require('inquirer');
-const { orderBy } = require('natural-orderby');
-const chalk = require('chalk');
-const _pad = require('lodash/pad');
-const figures = require('figures').default;
+import simpleGit from 'simple-git/promise.js';
+import inquirer from 'inquirer';
+import { orderBy } from 'natural-orderby';
+import chalk from 'chalk';
+import figures from 'figures';
+
+import _pad from 'lodash/pad.js';
 
 class Separator extends inquirer.Separator {
   constructor(line) {
@@ -47,7 +48,9 @@ const createChoices = async (git) => {
   return choices;
 };
 
-inquirer.registerPrompt('git-add-checkbox', require('../lib/git-add-interactive-checkbox-prompt'));
+import gitAddInteractiveCheckboxPrompt from '../lib/git-add-interactive-checkbox-prompt.mjs';
+
+inquirer.registerPrompt('git-add-checkbox', gitAddInteractiveCheckboxPrompt);
 
 const getPageSize = async (git, defaultValue = 20) => {
   const rawPageSize = (await git.raw(['config', 'add-interactive.pageSize']) || '').trim();

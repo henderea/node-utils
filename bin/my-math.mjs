@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
-const { argParser } = require('@henderea/arg-helper')(require('arg'));
-const { HelpTextMaker, styles } = require('@henderea/simple-colors/helpText');
+import _round from 'lodash/round.js';
+import _floor from 'lodash/floor.js';
+import _ceil from 'lodash/ceil.js';
+
+import { argParser } from '../lib/utils/arg-helper.mjs';
+import { HelpTextMaker, styles } from '@henderea/simple-colors/helpText.js';
 const { magenta, red, bold } = styles;
-const _round = require('lodash/round');
-const _floor = require('lodash/floor');
-const _ceil = require('lodash/ceil');
-const { readAll } = require('../lib/utils/readAll');
+
+import { readAll } from '../lib/utils/readAll.mjs';
 
 const helpText = new HelpTextMaker('my-math')
   .wrap()

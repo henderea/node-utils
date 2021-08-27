@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 
-const execa = require('execa');
+import execa from 'execa';
 
-const arg = require('arg');
-const shellEscape = require('any-shell-escape');
+import arg from 'arg';
+import shellEscape from 'any-shell-escape';
 
-const _flattenDeep = require('lodash/flattenDeep');
+import _flattenDeep from 'lodash/flattenDeep.js';
 
-const { natSort } = require('../lib/utils/natSort');
+import { natSort } from '../lib/utils/natSort.mjs';
 
 const args = arg(
   {

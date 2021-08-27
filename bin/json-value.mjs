@@ -1,17 +1,17 @@
 #!/usr/bin/env node
 
-const fs = require('fs');
-const readline = require('readline');
+import fs from 'fs';
+import readline from 'readline';
 
-const { argParser } = require('@henderea/arg-helper')(require('arg'));
-const { HelpTextMaker, styles } = require('@henderea/simple-colors/helpText');
+import ttys from 'ttys';
+
+import { argParser } from '../lib/utils/arg-helper.mjs';
+import { HelpTextMaker, styles } from '@henderea/simple-colors/helpText.js';
 const { red, bold } = styles;
 
-const ttys = require('ttys');
-
-const { readAll } = require('../lib/utils/readAll');
-const { natSort } = require('../lib/utils/natSort');
-const __ = require('../lib/utils/common.js');
+import { readAll } from '../lib/utils/readAll.mjs';
+import { natSort } from '../lib/utils/natSort.mjs';
+import * as __ from '../lib/utils/common.mjs';
 
 const helpText = new HelpTextMaker('json-value')
   .wrap()

@@ -11,11 +11,11 @@ const serializer = xmldom.XMLSerializer;
 
 import _compact from 'lodash/compact.js';
 import * as jsdiff from 'diff';
+import arg from 'arg';
 
 import { HelpTextMaker, style, styles } from '@henderea/simple-colors/helpText.js';
 const { bold, red, green } = styles;
 
-const arg = require('arg');
 const options = arg(
   {
     '--help': Boolean,

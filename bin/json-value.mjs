@@ -86,7 +86,7 @@ async function readFiles(fileNames) {
 }
 
 function resolvePath(pathPieces, curData) {
-  if(!pathPieces || pathPieces.length == 0) {
+  if(__.listEmpty(pathPieces)) {
     return curData;
   }
   let piece = pathPieces[0];
@@ -205,7 +205,7 @@ function doGrepInternal(data, pattern, path) {
     const results = [];
     data.forEach((d, i) => {
       const rv = doGrepInternal(d, pattern, __.concat([], path, String(i)));
-      if(__.isArray(rv) && rv.length > 0) {
+      if(__.listNotEmpty(rv)) {
         results.push(...rv);
       }
     });
@@ -214,7 +214,7 @@ function doGrepInternal(data, pattern, path) {
     const results = [];
     Object.keys(data).forEach((k) => {
       const rv = doGrepInternal(data[k], pattern, __.concat([], path, String(k)));
-      if(__.isArray(rv) && rv.length > 0) {
+      if(__.listNotEmpty(rv)) {
         results.push(...rv);
       }
     });
@@ -232,6 +232,54 @@ function printGrepResults(results) {
   console.log(results.map((r) => `${bold(r.path.join('->'))}\n    ${r.highlightedValue}\n`).join('\n'));
 }
 
+function nameGrepResult(path, pattern) {
+  if(pattern.test(__.last(path))) {
+    pattern.lastIndex = 0;
+    const highlightedPath = __.concat([], path.slice(0, -1), __.last(path).replaceAll(pattern, (m) => boldGreen(m)));
+    return { path, highlightedPath };
+  }
+  return null;
+}
+
+function sortNameGrepResults(results) {
+  results = __.compact(results);
+  const maxLength = Math.max(...results.map((r) => r.path.length));
+  const sorts = __.flatten(__.times(maxLength, function(i) {
+    const f = (r) => r.path[i] || '';
+    return [(r) => f(r).replace(/[_-]/g, ' '), f];
+  }));
+  return orderBy(results, sorts);
+}
+
+function doNameGrepInternal(data, pattern, path) {
+  const results = [];
+  results.push(nameGrepResult(path, pattern));
+  if(__.isArray(data)) {
+    data.forEach((d, i) => {
+      const rv = doNameGrepInternal(d, pattern, __.concat([], path, String(i)));
+      if(__.listNotEmpty(rv)) {
+        results.push(...rv);
+      }
+    });
+  } else if(__.isObject(data)) {
+    Object.keys(data).forEach((k) => {
+      const rv = doNameGrepInternal(data[k], pattern, __.concat([], path, String(k)));
+      if(__.listNotEmpty(rv)) {
+        results.push(...rv);
+      }
+    });
+  }
+  return results;
+}
+
+function doNameGrep(data, pattern) {
+  return sortNameGrepResults(doNameGrepInternal(data, pattern, []));
+}
+
+function printNameGrepResults(results) {
+  console.log(results.map((r) => `${r.highlightedPath.join(bold('->'))}\n`).join(''));
+}
+
 const interactiveHelpText = new HelpTextMaker('')
   .wrap()
   .pushWrap(4)
@@ -242,6 +290,8 @@ const interactiveHelpText = new HelpTextMaker('')
   .key.flag('\\d').text(' ').param('<path>').value.text('print the elements in ').param('<path>').end.nl
   .key.flag('\\g').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').end.nl
   .key.flag('\\gi').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').text(' ignoring case').end.nl
+  .key.flag('\\G').text(' ').param('<regex>').value.text('search for keys matching ').param('<regex>').end.nl
+  .key.flag('\\Gi').text(' ').param('<regex>').value.text('search for keys matching ').param('<regex>').text(' ignoring case').end.nl
   .end
   .popWrap()
   .toString(120);
@@ -254,18 +304,26 @@ async function runInteractive(data, options) {
       process.exit(0);
     } else if(path == '\\h' || path == '\\?') {
       console.log(interactiveHelpText);
-    } else if(/^\\d\s*(.*)$/.test(path)) {
+    } else if(/^\\d\s+(.*)$/.test(path)) {
       const pathPieces = path.replace(/^\\d\s*(.*)$/, '$1').split(/->/g);
       const list = getSuggestions(pathPieces, data, true);
-      if(list && list.length > 0) { console.log(columns(list, { sort: false })); }
-    } else if(/^\\g\s*(.*)$/.test(path)) {
+      if(__.listNotEmpty(list)) { console.log(columns(list, { sort: false })); }
+    } else if(/^\\g\s+(.*)$/.test(path)) {
       const pattern = new RegExp(path.replace(/^\\g\s*(.*)$/, '$1'), 'g');
       const results = doGrep(data, pattern);
       printGrepResults(results);
-    } else if(/^\\gi\s*(.*)$/.test(path)) {
+    } else if(/^\\gi\s+(.*)$/.test(path)) {
       const pattern = new RegExp(path.replace(/^\\gi\s*(.*)$/, '$1'), 'gi');
       const results = doGrep(data, pattern);
       printGrepResults(results);
+    } else if(/^\\G\s+(.*)$/.test(path)) {
+      const pattern = new RegExp(path.replace(/^\\G\s*(.*)$/, '$1'), 'g');
+      const results = doNameGrep(data, pattern);
+      printNameGrepResults(results);
+    } else if(/^\\Gi\s+(.*)$/.test(path)) {
+      const pattern = new RegExp(path.replace(/^\\Gi\s*(.*)$/, '$1'), 'gi');
+      const results = doNameGrep(data, pattern);
+      printNameGrepResults(results);
     } else {
       if(path == '$') {
         printJson(data, options);
@@ -281,7 +339,7 @@ async function runInteractive(data, options) {
 async function run(options) {
   const fileData = await readFiles(options._);
   let data = fileData.map((d) => d.data);
-  if(data.length == 0) {
+  if(__.listEmpty(data)) {
     console.error(red.bright('No data found'));
     process.exit(1);
   }

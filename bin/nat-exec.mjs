@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import execa from 'execa';
+import { execaCommandSync } from 'execa';
 
 import arg from 'arg';
 import shellEscape from 'any-shell-escape';
@@ -49,7 +49,7 @@ if(!command.includes('@@')) {
 command = command.replace(/@@/g, _shellEscape(list));
 
 try {
-  const { exitCode } = execa.commandSync(command, { stdio: 'inherit', stripFinalNewline: false, shell: true });
+  const { exitCode } = execaCommandSync(command, { stdio: 'inherit', stripFinalNewline: false, shell: true });
   process.exit(exitCode);
 } catch (e) {
   const { exitCode } = e;

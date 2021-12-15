@@ -31,6 +31,7 @@
     "any-shell-escape": "^0.1.1",
     "arg": "^5.0.1",
     "chalk": "^5.0.0",
+    "cli-columns": "^4.0.0",
     "cli-cursor": "^4.0.0",
     "concat-stream": "^2.0.0",
     "diff": "^5.0.0",

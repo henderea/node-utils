@@ -493,6 +493,14 @@ chokidar@^3.5.2:
   optionalDependencies:
     fsevents "~2.3.2"
 
+cli-columns@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cli-columns/-/cli-columns-4.0.0.tgz#9fe4d65975238d55218c41bd2ed296a7fa555646"
+  integrity sha512-XW2Vg+w+L9on9wtwKpyzluIPCWXjaBahI7mTcYjx+BVIYD9c3yqcv/yKC7CmdCZat4rq2yiE1UMSJC5ivKfMtQ==
+  dependencies:
+    string-width "^4.2.3"
+    strip-ansi "^6.0.1"
+
 cli-cursor@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-3.1.0.tgz#264305a7ae490d1d03bf0c9ba7c925d1753af307"

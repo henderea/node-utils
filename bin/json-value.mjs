@@ -4,10 +4,13 @@ import fs from 'fs';
 import readline from 'readline';
 
 import ttys from 'ttys';
+import columns from 'cli-columns';
+import { orderBy } from 'natural-orderby';
 
 import { argParser } from '../lib/utils/arg-helper.mjs';
-import { HelpTextMaker, styles } from '@henderea/simple-colors/helpText.js';
-const { red, bold } = styles;
+import { HelpTextMaker, style, styles } from '@henderea/simple-colors/helpText.js';
+const { red, green, bold } = styles;
+const boldGreen = style(bold, green.bright);
 
 import { readAll } from '../lib/utils/readAll.mjs';
 import { natSort } from '../lib/utils/natSort.mjs';
@@ -177,14 +180,68 @@ async function prompt(rl) {
   });
 }
 
+function grepResult(path, pattern, value) {
+  value = __.isNil(value) ? '' : String(value);
+  if(pattern.test(value)) {
+    pattern.lastIndex = 0;
+    const highlightedValue = value.replaceAll(pattern, (m) => boldGreen(m));
+    return { path, value, highlightedValue };
+  }
+  return null;
+}
+
+function sortGrepResults(results) {
+  results = __.compact(results);
+  const maxLength = Math.max(...results.map((r) => r.path.length));
+  const sorts = __.flatten(__.times(maxLength, function(i) {
+    const f = (r) => r.path[i] || '';
+    return [(r) => f(r).replace(/[_-]/g, ' '), f];
+  }));
+  return orderBy(results, sorts);
+}
+
+function doGrepInternal(data, pattern, path) {
+  if(__.isArray(data)) {
+    const results = [];
+    data.forEach((d, i) => {
+      const rv = doGrepInternal(d, pattern, __.concat([], path, String(i)));
+      if(__.isArray(rv) && rv.length > 0) {
+        results.push(...rv);
+      }
+    });
+    return results;
+  } else if(__.isObject(data)) {
+    const results = [];
+    Object.keys(data).forEach((k) => {
+      const rv = doGrepInternal(data[k], pattern, __.concat([], path, String(k)));
+      if(__.isArray(rv) && rv.length > 0) {
+        results.push(...rv);
+      }
+    });
+    return results;
+  } else {
+    return [grepResult(path, pattern, data)];
+  }
+}
+
+function doGrep(data, pattern) {
+  return sortGrepResults(doGrepInternal(data, pattern, []));
+}
+
+function printGrepResults(results) {
+  console.log(results.map((r) => `${bold(r.path.join('->'))}\n    ${r.highlightedValue}`).join('\n\n'));
+}
+
 const interactiveHelpText = new HelpTextMaker('')
   .wrap()
   .pushWrap(4)
   .dict
-  .key.flag('<path>').value.text('get the value at ').flag('<path>').text(`, where the path separator is '->'`).end.nl
+  .key.flag('<path>').value.text('get the value at ').flag('<path>').text(`, where the path separator is '->'. A path of `).flag('$').text(` will show the entire JSON`).end.nl
   .key.flag('\\q').value.text('exit').end.nl
   .key.flag('\\h', '\\?').value.text('print this help').end.nl
   .key.flag('\\d').text(' ').param('<path>').value.text('print the elements in ').param('<path>').end.nl
+  .key.flag('\\g').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').end.nl
+  .key.flag('\\gi').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').text(' ignoring case').end.nl
   .end
   .popWrap()
   .toString(120);
@@ -200,11 +257,23 @@ async function runInteractive(data, options) {
     } else if(/^\\d\s*(.*)$/.test(path)) {
       const pathPieces = path.replace(/^\\d\s*(.*)$/, '$1').split(/->/g);
       const list = getSuggestions(pathPieces, data, true);
-      if(list && list.length > 0) { console.log(list.join(', ')); }
+      if(list && list.length > 0) { console.log(columns(list, { sort: false })); }
+    } else if(/^\\g\s*(.*)$/.test(path)) {
+      const pattern = new RegExp(path.replace(/^\\g\s*(.*)$/, '$1'), 'g');
+      const results = doGrep(data, pattern);
+      printGrepResults(results);
+    } else if(/^\\gi\s*(.*)$/.test(path)) {
+      const pattern = new RegExp(path.replace(/^\\gi\s*(.*)$/, '$1'), 'gi');
+      const results = doGrep(data, pattern);
+      printGrepResults(results);
     } else {
-      const pathPieces = path.split(/->/g);
-      const curData = resolvePath(pathPieces, data);
-      printJson(curData, options);
+      if(path == '$') {
+        printJson(data, options);
+      } else {
+        const pathPieces = path.split(/->/g);
+        const curData = resolvePath(pathPieces, data);
+        printJson(curData, options);
+      }
     }
   }
 }

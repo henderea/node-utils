@@ -6,3 +6,4 @@ lib
 scripts
 yarn-error.log
 *.tgz
+.nvmrc

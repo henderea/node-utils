@@ -229,7 +229,7 @@ function doGrep(data, pattern) {
 }
 
 function printGrepResults(results) {
-  console.log(results.map((r) => `${bold(r.path.join('->'))}\n    ${r.highlightedValue}`).join('\n\n'));
+  console.log(results.map((r) => `${bold(r.path.join('->'))}\n    ${r.highlightedValue}\n`).join('\n'));
 }
 
 const interactiveHelpText = new HelpTextMaker('')

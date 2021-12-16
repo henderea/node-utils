@@ -6,6 +6,9 @@
   "author": "Eric Henderson <henderea@gmail.com>",
   "repository": "henderea/node-utils.git",
   "license": "MIT",
+  "engines": {
+    "node": ">=14"
+  },
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",
     "ncc:clean:all": "yarn ncc:clean bin/*.mjs",

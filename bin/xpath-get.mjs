@@ -72,7 +72,7 @@ async function readFile(file) {
   if(file == '-') {
     return await readAll(process.stdin);
   } else if(fs.existsSync(path.resolve(file))) {
-    return fs.readFileSync(path.resolve(file));
+    return fs.readFileSync(path.resolve(file), 'utf8');
   } else {
     return null;
   }

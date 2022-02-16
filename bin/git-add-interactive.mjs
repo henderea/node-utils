@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import simpleGit from 'simple-git/promise.js';
+import simpleGit from 'simple-git';
 import inquirer from 'inquirer';
 import { orderBy } from 'natural-orderby';
 import chalk from 'chalk';

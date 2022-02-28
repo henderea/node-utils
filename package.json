@@ -6,6 +6,7 @@
   "author": "Eric Henderson <henderea@gmail.com>",
   "repository": "henderea/node-utils.git",
   "license": "MIT",
+  "engineStrict": true,
   "engines": {
     "node": ">=14"
   },

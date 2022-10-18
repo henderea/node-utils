@@ -27,8 +27,8 @@
     "lint:fix": "eslint --fix bin lib"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "@babel/eslint-parser": "^7.17.0",
+    "@babel/core": "^7.19.3",
+    "@babel/eslint-parser": "^7.19.1",
     "@henderea/arg-helper": "^1.2.2",
     "@henderea/my-ncc": "^1.3.6",
     "@henderea/simple-colors": "^2.0.4",
@@ -39,9 +39,9 @@
     "cli-cursor": "^4.0.0",
     "concat-stream": "^2.0.0",
     "diff": "^5.0.0",
-    "eslint": "^8.10.0",
-    "eslint-config-henderea": "1.0.14",
-    "eslint-plugin-import": "^2.25.4",
+    "eslint": "^8.25.0",
+    "eslint-config-henderea": "1.0.16",
+    "eslint-plugin-import": "^2.26.0",
     "execa": "^6.1.0",
     "figures": "^4.0.0",
     "iconv-lite": "^0.6.3",

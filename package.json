@@ -70,6 +70,7 @@
     "nsort": "dist/nsort/index.js",
     "fsizewatch": "dist/fsizewatch/index.js",
     "git-add-interactive": "dist/git-add-interactive/index.js",
+    "git-select-interactive": "dist/git-select-interactive/index.js",
     "my-math": "dist/my-math/index.js",
     "pushover-notify": "dist/pushover-notify/index.js",
     "json-value": "dist/json-value/index.js"

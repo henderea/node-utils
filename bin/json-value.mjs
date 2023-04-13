@@ -308,7 +308,7 @@ async function runInteractive(data, options) {
       process.exit(0);
     } else if(path == '\\h' || path == '\\?') {
       console.log(interactiveHelpText);
-    } else if(/^\\d\s+(.*)$/.test(path)) {
+    } else if(/^\\d\s*(.*)$/.test(path)) {
       const pathPieces = path.replace(/^\\d\s*(.*)$/, '$1').split(/->/g);
       const list = getSuggestions(pathPieces, data, true);
       if(__.listNotEmpty(list)) { console.log(columns(list, { sort: false })); }

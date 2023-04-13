@@ -23,8 +23,8 @@
     "ncc:build:debug:all": "yarn ncc:build:debug bin/*.mjs",
     "prepublishOnly": "yarn ncc:build",
     "build": "yarn ncc:build",
-    "lint": "eslint bin lib",
-    "lint:fix": "eslint --fix bin lib"
+    "lint": "eslint bin lib --ext .js,.mjs,.ts",
+    "lint:fix": "eslint --fix bin lib --ext .js,.mjs,.ts"
   },
   "devDependencies": {
     "@henderea/arg-helper": "^1.2.2",

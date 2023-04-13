@@ -8,7 +8,7 @@
   "license": "MIT",
   "engineStrict": true,
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",

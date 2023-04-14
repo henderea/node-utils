@@ -1,48 +1,68 @@
 #!/usr/bin/env node
 
+import { fileURLToPath } from 'url';
+
 import moment from 'moment-timezone';
 import momentDurationFormat from 'moment-duration-format';
 momentDurationFormat(moment);
 
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
+import { argParser } from '../lib/utils/arg-helper.mjs';
+import { HelpTextMaker, styles } from '@henderea/simple-colors/helpText.js';
+const { red, bold } = styles;
 
-const yargsBuilder = yargs(hideBin(process.argv));
-const options = yargsBuilder
-  .usage('Usage: $0 [options]')
-  .epilog('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/')
-  .wrap(yargsBuilder.terminalWidth())
-  .help('h')
-  .alias('h', 'help')
-  .alias('o', ['output-format', 'f', 'format'])
-  .nargs('o', 1)
-  .array('o')
-  .describe('o', 'specify an output format to use; provide this flag multiple times to specify multiple output formats; if this flag is not provided, the milliseconds since the epoch will be outputted')
-  .default('o', 'x')
-  .alias('i', 'input-format')
-  .nargs('i', 1)
-  .string('i')
-  .describe('i', 'specify the input format; if the input format is not provided, will try to use default date parsing logic, and will treat a numeric-only date as a number of milliseconds since the epoch')
-  .alias('d', 'date')
-  .nargs('d', 1)
-  .string('d')
-  .describe('d', 'specify the date to use')
-  .implies('i', 'd')
-  .alias('t', 'output-timezone')
-  .nargs('t', 1)
-  .string('t')
-  .describe('t', 'specify the output timezone to use; defaults to input timezone if provided, otherwise uses the system timezone')
-  .alias('z', 'input-timezone')
-  .nargs('z', 1)
-  .string('z')
-  .describe('z', 'specify the input timezone to use; defaults to the system timezone')
-  .implies('z', 'd')
-  .alias('s', 'duration-format')
-  .nargs('s', 1)
-  .string('s')
-  .implies('s', 'd')
-  .describe('s', 'specify a duration format to use; treats the input date as a number of milliseconds of the duration')
-  .argv;
+let dirname = fileURLToPath(import.meta.url);
+
+try {
+  dirname = eval('__dirname');
+} catch {
+  //empty
+}
+
+const helpText = new HelpTextMaker('moment-date')
+  .wrap()
+  .title.nl
+  .pushWrap(4)
+  .tab.text('A tool for working with the Moment.js library').nl
+  .popWrap()
+  .nl
+  .usage.nl
+  .pushWrap(4)
+  .tab.name.space.flag('[options]').nl
+  .popWrap()
+  .nl
+  .flags.nl
+  .pushWrap(8)
+  .dict
+  .key.tab.text('    ').flag('--version').value.text('Show version number').end.nl
+  .key.tab.flag('-h', '--help').value.text('Show help').end.nl
+  .key.tab.flag('-o', '-f', '--output-format', '--format').value.text('Specify an output format to use; provide this flag multiple times to specify multiple output formats; if this flag is not provided, the milliseconds since the epoch will be outputted').end.nl
+  .key.tab.flag('-i', '--input-format').value.text('Specify the input format; if the input format is not provided, will try to use default date parsing logic, and will treat a numeric-only date as a number of milliseconds since the epoch').end.nl
+  .key.tab.flag('-d', '--date').value.text('Specify the date to use').end.nl
+  .key.tab.flag('-t', '--output-timezone').value.text('Specify the output timezone to use; defaults to input timezone if provided, otherwise uses the system timezone').end.nl
+  .key.tab.flag('-z', '--input-timezone').value.text('Specify the input timezone to use; defaults to the system timezone').end.nl
+  .key.tab.flag('-s', '--duration-format').value.text('Specify a duration format to use; treats the input date as a number of milliseconds of the duration').end.nl
+  .end
+  .popWrap()
+  .nl
+  .text('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/').nl
+  .toString(120);
+
+let options = null;
+try {
+  options = argParser()
+    .strings('outputFormat', '-o', '-f', '--output-format', '--format')
+    .string('inputFormat', '-i', '--input-format')
+    .string('date', '-d', '--date')
+    .string('outputTimezone', '-t', '--output-timezone')
+    .string('inputTimezone', '-z', '--input-timezone')
+    .string('durationFormat', '-s', '--duration-format')
+    .help(helpText, '--help', '-h')
+    .findVersion(dirname, '--version')
+    .argv;
+} catch (e) {
+  console.error(red.bright(`${bold('Error in arguments:')} ${e.message}`));
+  process.exit(1);
+}
 
 if(options.durationFormat && options.date) {
   let duration = moment.duration(parseInt(options.date));

@@ -27,7 +27,7 @@
     "lint:fix": "eslint --fix bin lib --ext .js,.mjs,.ts"
   },
   "devDependencies": {
-    "@henderea/arg-helper": "^1.2.3",
+    "@henderea/arg-helper": "^1.2.4",
     "@henderea/my-ncc": "^1.3.9",
     "@henderea/simple-colors": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^5.58.0",

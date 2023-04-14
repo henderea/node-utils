@@ -18,6 +18,8 @@ try {
   //empty
 }
 
+const wrapSize = Math.max(Math.min(argParser.terminalWidth(0.6), 200), 120);
+
 const helpText = new HelpTextMaker('moment-date')
   .wrap()
   .title.nl
@@ -45,7 +47,7 @@ const helpText = new HelpTextMaker('moment-date')
   .popWrap()
   .nl
   .text('Info on formatting specification can be found at http://momentjs.com/docs/#/displaying/format/').nl
-  .toString(120);
+  .toString(wrapSize);
 
 let options = null;
 try {

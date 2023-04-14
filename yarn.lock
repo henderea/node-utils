@@ -34,10 +34,10 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.38.0.tgz#73a8a0d8aa8a8e6fe270431c5e72ae91b5337892"
   integrity sha512-IoD2MfUnOV58ghIHCiil01PcohxjbYR/qCxsoC+xNgUwh1EY8jOOrYmu3d3a71+tJJ23uscEV4X2HJWMsPJu4g==
 
-"@henderea/arg-helper@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@henderea/arg-helper/-/arg-helper-1.2.3.tgz#8bfe244f23894fc4d341a9afb7ef39d5e9f77aa8"
-  integrity sha512-0r5ji5rSXYL4hxSi/wi1tf4D0HJExQT3tC6npAYvgsm3YIHLInRIftuU32LtpRfFBAnqdOpGBOTOZenmvLpX4g==
+"@henderea/arg-helper@^1.2.3", "@henderea/arg-helper@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@henderea/arg-helper/-/arg-helper-1.2.4.tgz#f13bc5e08b06039d4ee0c79b55983f7a3bed7173"
+  integrity sha512-kpFeSnPmyRJrFj7n6HhrmhvYsuixtXwBzMoQugJPodIuit9BwjwD5gzONYPcVBQDrsqsR8weazYMBzS5iIgn2g==
   dependencies:
     escalade "^3.1.1"
 

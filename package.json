@@ -55,6 +55,7 @@
     "pushover-notifications": "^1.2.2",
     "rxjs": "^7.8.0",
     "simple-git": "^3.17.0",
+    "strip-ansi": "^7.1.0",
     "ttys": "^0.0.3",
     "typescript": "^5.0.4",
     "xmldom": "^0.6.0",

@@ -2,6 +2,7 @@
 
 import arg from 'arg';
 import shellEscape from 'any-shell-escape';
+import stripAnsi from 'strip-ansi';
 
 import _flattenDeep from 'lodash/flattenDeep.js';
 
@@ -17,7 +18,9 @@ const args = arg(
     '--escape': Boolean,
     '-e': '--escape',
     '--array-escape': Boolean,
-    '-E': '--array-escape'
+    '-E': '--array-escape',
+    '--ansi-escaped': Boolean,
+    '-a': '--ansi-escaped'
   },
   {
     permissive: true
@@ -40,12 +43,14 @@ function __shellEscape(params) {
   }
 }
 
+const cleanLine = args['--ansi-escaped'] ? (l) => stripAnsi(l).trim() : (l) => l;
+
 const run = async () => {
   let input = await readAll(process.stdin);
   let trimmedInput = input.replace(/\n$/m, '');
   let endedInNewLine = trimmedInput != input;
   let lines = trimmedInput.replace(/\0$/m, '').split(args['--zero'] ? /\0/g : /\n/g);
-  let sortedLines = natSort(lines);
+  let sortedLines = natSort(lines, cleanLine);
   if(args['--reverse']) { sortedLines = sortedLines.reverse(); }
   if(args['--array-escape']) {
     process.stdout.write(_shellEscape(sortedLines));

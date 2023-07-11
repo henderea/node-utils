@@ -6,6 +6,7 @@ import shellEscape from 'any-shell-escape';
 import stripAnsi from 'strip-ansi';
 
 import _flattenDeep from 'lodash/flattenDeep.js';
+import _uniq from 'lodash/uniq.js';
 
 import { natSort } from '../lib/utils/natSort.mjs';
 import { readAll } from '../lib/utils/readAll.mjs';
@@ -49,6 +50,7 @@ const helpText = new HelpTextMaker('nsort')
   .key.tab.flag('-b', '--ignore-leading-blanks').value.text('Ignore leading blank characters when comparing items').end.nl
   .key.tab.flag('-h', '--byte-sort').value.text('Handle byte unit suffixes, using a base of 1000').end.nl
   .key.tab.flag('-H', '--binary-byte-sort').value.text('Handle byte unit suffixes, using a base of 1024').end.nl
+  .key.tab.flag('-u', '--unique').value.text('Only output unique values').end.nl
   .end
   .popWrap()
   .nl
@@ -65,6 +67,7 @@ try {
     .bool('ignoreLeadingBlanks', '-b', '--ignore-leading-blanks')
     .bool('byteSort', '-h', '--byte-sort')
     .bool('binaryByteSort', '-H', '--binary-byte-sort')
+    .bool('uniq', '-u', '--unique')
     .help(helpText, '--help')
     .findVersion(dirname, '--version')
     .argv;
@@ -119,6 +122,7 @@ const run = async () => {
   let lines = trimmedInput.replace(/\0$/m, '').split(options.zero ? /\0/g : /\n/g);
   let sortedLines = natSort(lines, cleanLine);
   if(options.reverse) { sortedLines = sortedLines.reverse(); }
+  if(options.uniq) { sortedLines = _uniq(sortedLines); }
   if(options.arrayEscape) {
     process.stdout.write(_shellEscape(sortedLines));
   } else {

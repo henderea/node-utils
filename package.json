@@ -28,10 +28,10 @@
   },
   "devDependencies": {
     "@henderea/arg-helper": "^1.2.4",
-    "@henderea/my-ncc": "^1.3.9",
     "@henderea/simple-colors": "^2.0.5",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@typescript-eslint/parser": "^5.58.0",
+    "@vercel/ncc": "^0.36.1",
     "any-shell-escape": "^0.1.1",
     "arg": "^5.0.2",
     "chalk": "^5.2.0",
@@ -63,19 +63,19 @@
     "yargs": "17.7.1"
   },
   "bin": {
-    "xpath-get": "dist/xpath-get/index.js",
-    "xpath-set": "dist/xpath-set/index.js",
-    "moment-date": "dist/moment-date/index.js",
-    "nat-exec": "dist/nat-exec/index.js",
-    "my-service": "dist/my-service/index.js",
-    "strip-accents": "dist/strip-accents/index.js",
-    "nsort": "dist/nsort/index.js",
-    "fsizewatch": "dist/fsizewatch/index.js",
-    "git-add-interactive": "dist/git-add-interactive/index.js",
-    "git-select-interactive": "dist/git-select-interactive/index.js",
-    "my-math": "dist/my-math/index.js",
-    "pushover-notify": "dist/pushover-notify/index.js",
-    "json-value": "dist/json-value/index.js"
+    "xpath-get": "dist/xpath-get/index.mjs",
+    "xpath-set": "dist/xpath-set/index.mjs",
+    "moment-date": "dist/moment-date/index.mjs",
+    "nat-exec": "dist/nat-exec/index.mjs",
+    "my-service": "dist/my-service/index.mjs",
+    "strip-accents": "dist/strip-accents/index.mjs",
+    "nsort": "dist/nsort/index.mjs",
+    "fsizewatch": "dist/fsizewatch/index.mjs",
+    "git-add-interactive": "dist/git-add-interactive/index.mjs",
+    "git-select-interactive": "dist/git-select-interactive/index.mjs",
+    "my-math": "dist/my-math/index.mjs",
+    "pushover-notify": "dist/pushover-notify/index.mjs",
+    "json-value": "dist/json-value/index.mjs"
   },
   "dependencies": {
     "chokidar": "^3.5.3"

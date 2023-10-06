@@ -3,12 +3,15 @@ _cleanup_param() {
   s="$(basename "$s")"
   s="${s%*.js}"
   s="${s%*.mjs}"
+  s="${s%*.ts}"
   echo "$s"
 }
 
 _get_bin_path() {
   local s="$1"
-  if [[ -f "bin/$s.mjs" ]]; then
+  if [[ -f "bin/$s.ts" ]]; then
+    echo "bin/$s.ts"
+  elif [[ -f "bin/$s.mjs" ]]; then
     echo "bin/$s.mjs"
   else
     echo "bin/$s.js"

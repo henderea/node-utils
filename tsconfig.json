@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "declaration": false,
+    "strict": true,
+    "lib": [
+      "es2015",
+      "esnext"
+    ],
+    "types": [
+      "node"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "lib/*": [
+        "lib/*"
+      ],
+      "ts-lib/*": [
+        "ts-lib/*"
+      ]
+    },
+    "typeRoots": [
+      "./node_modules/@types",
+      "./ts-types"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "removeComments": true
+  },
+  "include": [
+    "bin/**/*.ts",
+    "lib/**/*.ts",
+    "ts-lib/**/*.ts",
+    "ts-types/**/*.ts"
+  ],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true,
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "Node16"
+    }
+  }
+}

@@ -12,15 +12,15 @@
   },
   "scripts": {
     "ncc:build": "yarn ncc:build:release:all",
-    "ncc:clean:all": "yarn ncc:clean bin/*.mjs bin/*.ts",
+    "ncc:clean:all": "yarn ncc:clean src/*.mjs src/*.ts",
     "ncc:clean": "./scripts/ncc-clean.sh",
     "ncc:post-clean": "./scripts/ncc-post_clean.sh",
     "ncc:build:release:build": "./scripts/ncc-build-release-build.sh",
     "ncc:build:debug:build": "./scripts/ncc-build-debug-build.sh",
     "ncc:build:release": "./scripts/ncc-build-release.sh",
     "ncc:build:debug": "./scripts/ncc-build-debug.sh",
-    "ncc:build:release:all": "yarn ncc:build:release bin/*.mjs bin/*.ts",
-    "ncc:build:debug:all": "yarn ncc:build:debug bin/*.mjs bin/*.ts",
+    "ncc:build:release:all": "yarn ncc:build:release src/*.mjs src/*.ts",
+    "ncc:build:debug:all": "yarn ncc:build:debug src/*.mjs src/*.ts",
     "prepublishOnly": "yarn ncc:build",
     "build": "yarn ncc:build",
     "lint": "eslint --ext .js,.mjs,.ts",
@@ -82,6 +82,9 @@
   "dependencies": {
     "chokidar": "^3.5.3"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "eslintConfig": {
     "extends": "henderea",
     "rules": {

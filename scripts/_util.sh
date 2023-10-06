@@ -9,12 +9,12 @@ _cleanup_param() {
 
 _get_bin_path() {
   local s="$1"
-  if [[ -f "bin/$s.ts" ]]; then
-    echo "bin/$s.ts"
-  elif [[ -f "bin/$s.mjs" ]]; then
-    echo "bin/$s.mjs"
+  if [[ -f "src/$s.ts" ]]; then
+    echo "src/$s.ts"
+  elif [[ -f "src/$s.mjs" ]]; then
+    echo "src/$s.mjs"
   else
-    echo "bin/$s.js"
+    echo "src/$s.js"
   fi
 }
 

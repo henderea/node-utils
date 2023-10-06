@@ -1,9 +1,0 @@
-pkg
-pkg-config
-.vscode
-bin
-lib
-scripts
-yarn-error.log
-*.tgz
-.nvmrc

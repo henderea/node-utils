@@ -83,7 +83,8 @@
   "eslintConfig": {
     "extends": "henderea",
     "rules": {
-      "no-constant-condition": 0
+      "no-constant-condition": 0,
+      "no-misleading-character-class": 0
     }
   }
 }

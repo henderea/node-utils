@@ -1,4 +1,8 @@
+import path from 'path';
+import fs from 'fs';
+
 import _ from 'lodash';
+
 
 import { styles, style } from '@henderea/simple-colors';
 const { green, red, bold } = styles;
@@ -18,7 +22,7 @@ function addWarning(replacement: string, char: string, message: string): void {
   warnings.push(`${quote(replacement).padEnd(8)} => ${quote(char)} -> ${message}`);
 }
 
-const rawMappings: Dictionary<string[]> = {};
+const rawMappings: Dictionary<SortablePattern[]> = {};
 const charPattern: RegExp = /^([0-9A-F]{4})(?:-([0-9A-F]{4})(?:[/]([1-9]\d*))?)?$/;
 
 type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
@@ -27,31 +31,38 @@ type CharCode = `${HexChar}${HexChar}${HexChar}${HexChar}`;
 
 type Char = string | `${string}-${string}` | `${string}-${string}/${number}`;
 
+interface SortablePattern {
+  pattern: string;
+  index: number;
+}
+
 interface CharParseResult {
   chars: string[];
-  patterns: string[];
+  patterns: SortablePattern[];
 }
 function processChar(rawStart: string, rawEnd: string | null, rawSpacing: string | null): CharParseResult {
+  const start: number = parseInt(rawStart, 16);
   if(!rawEnd) {
-    return { chars: [rawStart], patterns: [`\\u${rawStart}`] };
+    return { chars: [rawStart], patterns: [{ pattern: `\\u${rawStart}`, index: start }] };
   }
   const chars: string[] = [];
-  const patterns: string[] = [];
-  const start: number = parseInt(rawStart, 16);
+  const patterns: SortablePattern[] = [];
   const end: number = parseInt(rawEnd, 16);
   const spacing: number = (rawSpacing ? parseInt(rawSpacing) : 1);
-  for(let i = start; i <= end; i += spacing) {
-    chars.push(i.toString(16));
-  }
   if(spacing == 1) {
-    patterns.push(`\\u${rawStart}-\\u${rawEnd}`);
-  } else {
-    patterns.push(...chars.map((c) => `\\u${c}`));
+    patterns.push({ pattern: `\\u${rawStart}-\\u${rawEnd}`, index: start });
+  }
+  for(let i = start; i <= end; i += spacing) {
+    const char: string = i.toString(16);
+    chars.push(char);
+    if(spacing > 1) {
+      patterns.push({ pattern: `\\u${char}`, index: i });
+    }
   }
   return { chars, patterns };
 }
 function map(replacement: string, ...characters: Char[]): void {
-  const list: string[] = rawMappings[replacement] || [];
+  const list: SortablePattern[] = rawMappings[replacement] || [];
   for(const baseChar of characters) {
     const result: RegExpExecArray | null = charPattern.exec(baseChar);
     if(result) {
@@ -409,4 +420,22 @@ map('/', '2CC6', '2CC7');
 
 //Finished Through: 2CD9
 
+if(!validate()) {
+  process.exit(1);
+}
+
+for(const replacement in rawMappings) {
+  const patterns: SortablePattern[] = rawMappings[replacement];
+  const pattern = _.join(_.map(_.sortBy(patterns, 'index'), 'pattern'), '');
+  mappings.push({ replacement, pattern });
+}
+
 const suffix: string = `\n\nexport const stripAccents = (str) => mappings.reduce((s, [replacement, pattern]) => s.replace(pattern, replacement), str);\n`;
+
+const mainContent: string = `const mappings = [\n${mappings.map(({ replacement, pattern }) => `  [${quote(replacement)}, /(${pattern})/g]`).join(',\n')}];`;
+
+fs.writeFileSync(path.join(__dirname, '../lib/accents.mjs'), `${mainContent}${suffix}`, { encoding: 'utf8' });
+
+process.stdout.write(boldGreen(`Successfully updated accents.mjs`));
+
+process.exit(0);

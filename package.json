@@ -24,7 +24,8 @@
     "prepublishOnly": "yarn ncc:build",
     "build": "yarn ncc:build",
     "lint": "eslint --ext .js,.mjs,.ts",
-    "lint:fix": "eslint --fix --ext .js,.mjs,.ts"
+    "lint:fix": "eslint --fix --ext .js,.mjs,.ts",
+    "accents:update": "ts-node bin/update-accents.ts"
   },
   "devDependencies": {
     "@henderea/arg-helper": "^1.2.4",
@@ -59,6 +60,7 @@
     "rxjs": "^7.8.1",
     "simple-git": "^3.20.0",
     "strip-ansi": "^7.1.0",
+    "ts-node": "^10.9.1",
     "ttys": "^0.0.3",
     "typescript": "^5.2.2",
     "xmldom": "^0.6.0",

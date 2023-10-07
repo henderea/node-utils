@@ -3,3 +3,4 @@ pkg
 yarn-error.log
 dist
 *.tgz
+accents-mappings.rb

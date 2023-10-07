@@ -401,7 +401,7 @@ map('c', '217D', '2184');
 map('D', '217E');
 map('m', '217F');
 map('"', '201C-201F');
-map("'", '00B4', '0092', '02BB-02BD', '02DD', '02CA', '02CB', '02CE', '02CF', '2018-201B', '2032', '2035');
+map("'", '0092', '00B4', '02BB-02BD', '02CA', '02CB', '02CE', '02CF', '02DD', '2018-201B', '2032', '2035');
 map("''", '2033', '2036');
 map("'''", '2034', '2037');
 map("''''", '2057');
@@ -443,6 +443,10 @@ const suffix: string = `\n\nexport const stripAccents = (str) => mappings.reduce
 const mainContent: string = `const mappings = [\n${mappings.map(({ replacement, pattern }) => `  [${quote(replacement)}, /(${pattern})/g]`).join(',\n')}\n];`;
 
 fs.writeFileSync(path.join(__dirname, '../lib/accents.mjs'), `${mainContent}${suffix}`, { encoding: 'utf8' });
+
+const rubyContent: string = `MAPPINGS = [\n${mappings.map(({ replacement, pattern }) => `  [%r{(${pattern})}, ${quote(replacement)}]`).join(',\n')}\n]\n`;
+
+fs.writeFileSync(path.join(__dirname, '../accents-mappings.rb'), rubyContent, { encoding: 'utf8' });
 
 process.stdout.write(boldGreen(`Successfully updated accents.mjs`));
 

@@ -4,9 +4,13 @@ import fs from 'fs';
 import _ from 'lodash';
 
 
-import { styles, style } from '@henderea/simple-colors';
-const { green, red, bold } = styles;
-const boldGreen = style(bold, green);
+function basicStyle(o: string | number, c: string | number): (text: string) => string {
+  return (text: string) => `\u001B[${o}m${text}\u001B[${c}m`;
+}
+
+const bold = basicStyle(1, 22);
+const red = basicStyle(31, 39);
+const boldGreen = basicStyle('1;32', '22;39');
 
 const mappedChars: Dictionary<string> = {};
 const warnings: string[] = [];
@@ -23,6 +27,7 @@ function addWarning(replacement: string, char: string, message: string): void {
 }
 
 const rawMappings: Dictionary<SortablePattern[]> = {};
+const rawKeys: string[] = [];
 const charPattern: RegExp = /^([0-9A-F]{4})(?:-([0-9A-F]{4})(?:[/]([1-9]\d*))?)?$/;
 
 type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'A' | 'B' | 'C' | 'D' | 'E' | 'F';
@@ -53,7 +58,7 @@ function processChar(rawStart: string, rawEnd: string | null, rawSpacing: string
     patterns.push({ pattern: `\\u${rawStart}-\\u${rawEnd}`, index: start });
   }
   for(let i = start; i <= end; i += spacing) {
-    const char: string = i.toString(16);
+    const char: string = i.toString(16).padStart(4, '0').toUpperCase();
     chars.push(char);
     if(spacing > 1) {
       patterns.push({ pattern: `\\u${char}`, index: i });
@@ -83,6 +88,9 @@ function map(replacement: string, ...characters: Char[]): void {
     }
   }
   if(list.length > 0) {
+    if(!(replacement in rawMappings)) {
+      rawKeys.push(replacement);
+    }
     rawMappings[replacement] = list;
   }
 }
@@ -204,7 +212,7 @@ map('un', '057F');
 map('V', '01B2', '0245', '0474', '0476', '1D20', '1E7C', '1E7E', '2123', '2C7D');
 map('v', '028B', '028C', '02C5', '0475', '0477', '1D5B', '1D65', '1D8C', '1DB9', '1DBA', '1E7D', '1E7F', '2C71', '2C74');
 map('W', '0174', '019C', '0460', '0461', '047C', '047E', '051C', '1D21', '1D42', '1E80-1E88/2', '2C72', '2CB0', '2CC2');
-map('w', '0175', '026F', '0270', '02B7', '0428', '0429', '0448', '0449', '047D', '047F', '051D', '0561', '057A', '1E8-1E89/2', '1E98', '1F60-1F67', '1F7C', '1F7D', '1FA0-1FA7', '1FF2-1FF7', '2C73', '2CB1', '2CC3');
+map('w', '0175', '026F', '0270', '02B7', '0428', '0429', '0448', '0449', '047D', '047F', '051D', '0561', '057A', '1E81-1E89/2', '1E98', '1F60-1F67', '1F7C', '1F7D', '1FA0-1FA7', '1FF2-1FF7', '2C73', '2CB1', '2CC3');
 map('X', '04B2', '04FC', '04FE', '1E8A', '1E8C', '2CAC');
 map('x', '00D7', '0425', '0445', '04B3', '04FD', '04FF', '1D61', '1D6A', '1D8D', '1E8B', '1E8D', '2093', '2CAD');
 map('Y', '00DD', '0176', '0178', '01B3', '0232', '024E', '028F', '04AE-04B1', '1E8E', '1EF2-1EF8/2', '1EFE', '1F59-1F5F', '1FE8-1FEB', '2144', '2CA8');
@@ -269,80 +277,80 @@ map('(17)', '2484');
 map('(18)', '2485');
 map('(19)', '2486');
 map('(20)', '2487');
-map('(a).', '249C', '24D0');
-map('(b).', '249D', '24D1');
-map('(c).', '249E', '24D2');
-map('(d).', '249F', '24D3');
-map('(e).', '24A0', '24D4');
-map('(f).', '24A1', '24D5');
-map('(g).', '24A2', '24D6');
-map('(h).', '24A3', '24D7');
-map('(i).', '24A4', '24D8');
-map('(j).', '24A5', '24D9');
-map('(k).', '24A6', '24DA');
-map('(l).', '24A7', '24DB');
-map('(m).', '24A8', '24DC');
-map('(n).', '24A9', '24DD');
-map('(o).', '24AA', '24DE');
-map('(p).', '24AB', '24DF');
-map('(q).', '24AC', '24E0');
-map('(r).', '24AD', '24E1');
-map('(s).', '24AE', '24E2');
-map('(t).', '24AF', '24E3');
-map('(u).', '24B0', '24E4');
-map('(v).', '24B1', '24E5');
-map('(w).', '24B2', '24E6');
-map('(x).', '24B3', '24E7');
-map('(y).', '24B4', '24E8');
-map('(z).', '24B5', '24E9');
-map('(A).', '24B6');
-map('(B).', '24B7');
-map('(C).', '24B8');
-map('(D).', '24B9');
-map('(E).', '24BA');
-map('(F).', '24BB');
-map('(G).', '24BC');
-map('(H).', '24BD');
-map('(I).', '24BE');
-map('(J).', '24BF');
-map('(K).', '24C0');
-map('(L).', '24C1');
-map('(M).', '24C2');
-map('(N).', '24C3');
-map('(O).', '24C4');
-map('(P).', '24C5');
-map('(Q).', '24C6');
-map('(R).', '24C7');
-map('(S).', '24C8');
-map('(T).', '24C9');
-map('(U).', '24CA');
-map('(V).', '24CB');
-map('(W).', '24CC');
-map('(X).', '24CD');
-map('(Y).', '24CE');
-map('(Z).', '24CF');
-map('(0).', '24EA');
-map('(11).', '24EB');
+map('(a)', '249C', '24D0');
+map('(b)', '249D', '24D1');
+map('(c)', '249E', '24D2');
+map('(d)', '249F', '24D3');
+map('(e)', '24A0', '24D4');
+map('(f)', '24A1', '24D5');
+map('(g)', '24A2', '24D6');
+map('(h)', '24A3', '24D7');
+map('(i)', '24A4', '24D8');
+map('(j)', '24A5', '24D9');
+map('(k)', '24A6', '24DA');
+map('(l)', '24A7', '24DB');
+map('(m)', '24A8', '24DC');
+map('(n)', '24A9', '24DD');
+map('(o)', '24AA', '24DE');
+map('(p)', '24AB', '24DF');
+map('(q)', '24AC', '24E0');
+map('(r)', '24AD', '24E1');
+map('(s)', '24AE', '24E2');
+map('(t)', '24AF', '24E3');
+map('(u)', '24B0', '24E4');
+map('(v)', '24B1', '24E5');
+map('(w)', '24B2', '24E6');
+map('(x)', '24B3', '24E7');
+map('(y)', '24B4', '24E8');
+map('(z)', '24B5', '24E9');
+map('(A)', '24B6');
+map('(B)', '24B7');
+map('(C)', '24B8');
+map('(D)', '24B9');
+map('(E)', '24BA');
+map('(F)', '24BB');
+map('(G)', '24BC');
+map('(H)', '24BD');
+map('(I)', '24BE');
+map('(J)', '24BF');
+map('(K)', '24C0');
+map('(L)', '24C1');
+map('(M)', '24C2');
+map('(N)', '24C3');
+map('(O)', '24C4');
+map('(P)', '24C5');
+map('(Q)', '24C6');
+map('(R)', '24C7');
+map('(S)', '24C8');
+map('(T)', '24C9');
+map('(U)', '24CA');
+map('(V)', '24CB');
+map('(W)', '24CC');
+map('(X)', '24CD');
+map('(Y)', '24CE');
+map('(Z)', '24CF');
+map('(0)', '24EA');
+map('(11)', '24EB');
 map('(12)', '24EC');
-map('(13).', '24ED');
-map('(14).', '24EE');
-map('(15).', '24EF');
-map('(16).', '24F0');
-map('(17).', '24F1');
-map('(18).', '24F2');
-map('(19).', '24F3');
-map('(20).', '24F4');
-map('(1).', '24F5');
-map('(2).', '24F6');
-map('(3).', '24F7');
-map('(4).', '24F8');
-map('(5).', '24F9');
-map('(6).', '24FA');
-map('(7).', '24FB');
-map('(8).', '24FC');
-map('(9).', '24FD');
-map('(10).', '24FE');
-map('(0).', '24FF');
+map('(13)', '24ED');
+map('(14)', '24EE');
+map('(15)', '24EF');
+map('(16)', '24F0');
+map('(17)', '24F1');
+map('(18)', '24F2');
+map('(19)', '24F3');
+map('(20)', '24F4');
+map('(1)', '24F5');
+map('(2)', '24F6');
+map('(3)', '24F7');
+map('(4)', '24F8');
+map('(5)', '24F9');
+map('(6)', '24FA');
+map('(7)', '24FB');
+map('(8)', '24FC');
+map('(9)', '24FD');
+map('(10)', '24FE');
+map('(0)', '24FF');
 map('0/3', '2189');
 map('1/', '215F');
 map('1/3', '2153');
@@ -424,15 +432,15 @@ if(!validate()) {
   process.exit(1);
 }
 
-for(const replacement in rawMappings) {
+for(const replacement of rawKeys) {
   const patterns: SortablePattern[] = rawMappings[replacement];
-  const pattern = _.join(_.map(_.sortBy(patterns, 'index'), 'pattern'), '');
+  const pattern = `[${_.join(_.map(_.sortBy(patterns, 'index'), 'pattern'), '')}]`;
   mappings.push({ replacement, pattern });
 }
 
 const suffix: string = `\n\nexport const stripAccents = (str) => mappings.reduce((s, [replacement, pattern]) => s.replace(pattern, replacement), str);\n`;
 
-const mainContent: string = `const mappings = [\n${mappings.map(({ replacement, pattern }) => `  [${quote(replacement)}, /(${pattern})/g]`).join(',\n')}];`;
+const mainContent: string = `const mappings = [\n${mappings.map(({ replacement, pattern }) => `  [${quote(replacement)}, /(${pattern})/g]`).join(',\n')}\n];`;
 
 fs.writeFileSync(path.join(__dirname, '../lib/accents.mjs'), `${mainContent}${suffix}`, { encoding: 'utf8' });
 

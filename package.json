@@ -25,7 +25,9 @@
     "build": "yarn ncc:build",
     "lint": "eslint --ext .js,.mjs,.ts",
     "lint:fix": "eslint --fix --ext .js,.mjs,.ts",
-    "accents:update": "ts-node bin/update-accents.ts"
+    "accents:update": "ts-node bin/update-accents.ts",
+    "accents:validate": "VALIDATE=true ts-node bin/update-accents.ts",
+    "accents:validate:watch": "node ./bin/watch-accents.mjs"
   },
   "devDependencies": {
     "@henderea/arg-helper": "^1.2.4",

@@ -18,6 +18,7 @@ const warnings: string[] = [];
 function quote(str: string): string {
   const sq: boolean = /'/.test(str);
   const dq: boolean = /"/.test(str);
+  str = str.replace(/\\/g, '\\\\');
   if(sq && dq) { return `\`${str}\``; }
   if(sq) { return `"${str}"`; }
   return `'${str}'`;

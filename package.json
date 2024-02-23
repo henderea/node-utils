@@ -30,11 +30,11 @@
     "accents:validate:watch": "node ./bin/watch-accents.mjs"
   },
   "devDependencies": {
-    "@henderea/arg-helper": "^1.2.4",
-    "@henderea/simple-colors": "^2.0.6",
-    "@types/concat-stream": "^2.0.1",
-    "@types/lodash": "^4.14.200",
-    "@types/node": "^20.8.7",
+    "@henderea/arg-helper": "^1.2.6",
+    "@henderea/simple-colors": "^2.1.2",
+    "@types/concat-stream": "^2.0.3",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.20",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vercel/ncc": "^0.38.1",
@@ -44,25 +44,25 @@
     "cli-columns": "^4.0.0",
     "cli-cursor": "^4.0.0",
     "concat-stream": "^2.0.0",
-    "diff": "^5.1.0",
+    "diff": "^5.2.0",
     "eslint": "^8.56.0",
     "eslint-config-henderea": "^1.1.21",
     "eslint-plugin-import": "^2.29.1",
     "execa": "^8.0.1",
     "figures": "^5.0.0",
     "iconv-lite": "^0.6.3",
-    "inquirer": "^9.2.11",
+    "inquirer": "^9.2.15",
     "jschardet": "^3.0.0",
     "lodash": "^4.17.21",
-    "moment": "^2.29.4",
+    "moment": "^2.30.1",
     "moment-duration-format": "^2.3.2",
-    "moment-timezone": "^0.5.43",
+    "moment-timezone": "^0.5.45",
     "natural-orderby": "^3.0.2",
     "pushover-notifications": "^1.2.2",
     "rxjs": "^7.8.1",
-    "simple-git": "^3.20.0",
+    "simple-git": "^3.22.0",
     "strip-ansi": "^7.1.0",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.9.2",
     "ttys": "^0.0.3",
     "typescript": "^5.3.3",
     "xmldom": "^0.6.0",
@@ -85,7 +85,7 @@
     "json-value": "dist/json-value/index.mjs"
   },
   "dependencies": {
-    "chokidar": "^3.5.3"
+    "chokidar": "^3.6.0"
   },
   "files": [
     "dist/**/*"

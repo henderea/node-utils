@@ -49,7 +49,7 @@
     "eslint-config-henderea": "^1.1.21",
     "eslint-plugin-import": "^2.29.1",
     "execa": "^8.0.1",
-    "figures": "^5.0.0",
+    "figures": "^6.0.1",
     "iconv-lite": "^0.6.3",
     "inquirer": "^9.2.15",
     "jschardet": "^3.0.0",
@@ -66,7 +66,7 @@
     "ttys": "^0.0.3",
     "typescript": "^5.3.3",
     "xmldom": "^0.6.0",
-    "xpath": "^0.0.33",
+    "xpath": "^0.0.34",
     "yargs": "17.7.2"
   },
   "bin": {

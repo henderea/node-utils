@@ -426,6 +426,7 @@ map('m', '217F');
 //endregion
 
 //region Punctuation and Symbols
+map(' ', '00A0');
 map('"', '201C-201F');
 map("'", '0092', '00B4', '02BB-02BD', '02CA', '02CB', '02CE', '02CF', '02DD', '2018-201B', '2032', '2035');
 map("''", '2033', '2036');

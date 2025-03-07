@@ -117,7 +117,20 @@ function resolvePath(pathPieces, curData) {
   return curData;
 }
 
-function getSuggestions(pathPieces, data, printChildren = false) {
+function getType(item) {
+  if(item === null) {
+    return 'null';
+  }
+  if(item === undefined) {
+    return 'undefined';
+  }
+  if(Array.isArray(item)) {
+    return 'array';
+  }
+  return typeof item;
+}
+
+function getSuggestions(pathPieces, data, printChildren = false, includeTypes = false) {
   if(pathPieces.includes('*')) {
     return null;
   } else {
@@ -127,20 +140,26 @@ function getSuggestions(pathPieces, data, printChildren = false) {
     if(__.isArray(curData)) {
       const list = natSort(__.times(curData.length, String));
       if(__.isBlank(lastPiece)) {
+        if(includeTypes) {
+          return list.map((k) => [k, getType(curData[parseInt(k)])]);
+        }
         return list;
       }
       if(list.includes(lastPiece) && printChildren) {
-        return getSuggestions(__.concat([], pathPieces, null), data);
+        return getSuggestions(__.concat([], pathPieces, null), data, false, includeTypes);
       }
       return list.filter((e) => String(e).startsWith(lastPiece));
     }
     if(__.isObject(curData)) {
       const list = natSort(Object.keys(curData));
       if(__.isBlank(lastPiece)) {
+        if(includeTypes) {
+          return list.map((k) => [k, getType(curData[k])]);
+        }
         return list;
       }
       if(list.includes(lastPiece) && printChildren) {
-        return getSuggestions(__.concat([], pathPieces, null), data);
+        return getSuggestions(__.concat([], pathPieces, null), data, false, includeTypes);
       }
       return list.filter((e) => String(e).startsWith(lastPiece));
     }
@@ -168,7 +187,7 @@ function createReadlineInterface(data) {
     prompt: '>> ',
     tabSize: 4,
     completer: () => {
-      const line = rl.line.replace(/^\\d\s*/, '');
+      const line = rl.line.replace(/^\\d\+?\s*/, '');
       const pathPieces = line.split(/->/g);
       const lastPiece = __.last(pathPieces);
       const suggestions = getSuggestions(pathPieces, data) || [];
@@ -292,6 +311,7 @@ const interactiveHelpText = new HelpTextMaker('')
   .key.flag('\\q').value.text('exit').end.nl
   .key.flag('\\h', '\\?').value.text('print this help').end.nl
   .key.flag('\\d').text(' ').param('<path>').value.text('print the elements in ').param('<path>').end.nl
+  .key.flag('\\d+').text(' ').param('<path>').value.text('print the elements in ').param('<path>').text(' with data types').end.nl
   .key.flag('\\g').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').end.nl
   .key.flag('\\gi').text(' ').param('<regex>').value.text('search for values matching ').param('<regex>').text(' ignoring case').end.nl
   .key.flag('\\G').text(' ').param('<regex>').value.text('search for keys matching ').param('<regex>').end.nl
@@ -308,6 +328,10 @@ async function runInteractive(data, options) {
       process.exit(0);
     } else if(path == '\\h' || path == '\\?') {
       console.log(interactiveHelpText);
+    } else if(/^\\d\+\s*(.*)$/.test(path)) {
+      const pathPieces = path.replace(/^\\d\+\s*(.*)$/, '$1').split(/->/g);
+      const list = getSuggestions(pathPieces, data, true, true);
+      if(__.listNotEmpty(list)) { console.log(columns(list.map((l) => `${l[0]} (${l[1]})`, { sort: false }))); }
     } else if(/^\\d\s*(.*)$/.test(path)) {
       const pathPieces = path.replace(/^\\d\s*(.*)$/, '$1').split(/->/g);
       const list = getSuggestions(pathPieces, data, true);

@@ -93,6 +93,13 @@ function resolvePath(pathPieces, curData) {
   }
   let piece = pathPieces[0];
   const subPieces = pathPieces.slice(1);
+  if(/^\{\s*[^{}\s]+[^{}]*\s*}$/g.test(piece)) {
+    piece = piece.replace(/^\{\s*([^{}]+?)\s*}$/, '$1');
+    const pieces = piece.split(/\s*,\s*/g);
+    const rv = {};
+    pieces.forEach((p) => { rv[p] = resolvePath([p, ...subPieces], curData); });
+    return rv;
+  }
   if(__.isArray(curData)) {
     if(piece == '*') {
       return curData.map((v) => resolvePath(subPieces, v));
@@ -131,7 +138,7 @@ function getType(item) {
 }
 
 function getSuggestions(pathPieces, data, printChildren = false, includeTypes = false) {
-  if(pathPieces.includes('*')) {
+  if(pathPieces.includes('*') || pathPieces.some((p) => /^\{\s*[^{}\s]+[^{}]*\s*}$/g.test(p))) {
     return null;
   } else {
     const lastPiece = __.last(pathPieces);
@@ -307,7 +314,7 @@ const interactiveHelpText = new HelpTextMaker('')
   .wrap()
   .pushWrap(4)
   .dict
-  .key.flag('<path>').value.text('get the value at ').flag('<path>').text(`, where the path separator is '->'. A path of `).flag('$').text(` will show the entire JSON`).end.nl
+  .key.flag('<path>').value.text('get the value at ').flag('<path>').text(`, where the path separator is '->'. A path of `).flag('$').text(` will show the entire JSON. Use `).flag('*').text(` to indicate all keys at that piece of the path. Use a comma-separated list of keys in curly braces to get those keys as an object.`).end.nl
   .key.flag('\\q').value.text('exit').end.nl
   .key.flag('\\h', '\\?').value.text('print this help').end.nl
   .key.flag('\\d').text(' ').param('<path>').value.text('print the elements in ').param('<path>').end.nl
